@@ -12,6 +12,7 @@ import com.kelab.info.base.constant.UserRoleConstant;
 import com.kelab.info.context.Context;
 import com.kelab.util.token.TokenUtil;
 import com.kelab.util.uuid.UuidUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -48,8 +49,14 @@ public class AuthAspect {
         if (token == null) {
             roleId = UserRoleConstant.NOT_LOGIN;
         } else {
-            roleId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, AuthConstant.ROLE_ID);
-            userId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, AuthConstant.USER_ID);
+            try {
+                roleId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, AuthConstant.ROLE_ID);
+                userId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, AuthConstant.USER_ID);
+            } catch (ExpiredJwtException e) {
+                return JsonAndModel.builder(BaseRetCodeConstant.JWT_IS_EXPIRE_ERROR).build();
+            } catch (Exception e) {
+                return JsonAndModel.builder(BaseRetCodeConstant.ILLEGAL_ACCESS_ERROR).build();
+            }
         }
         // 注入context
         Context context = new Context();

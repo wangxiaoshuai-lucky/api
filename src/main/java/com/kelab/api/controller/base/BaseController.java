@@ -30,4 +30,12 @@ public class BaseController {
     public Context getContext() {
         return ((Context) request.getAttribute(AuthConstant.CONTEXT_KEY));
     }
+
+    public String getLogId() {
+        return getContext().getLogId();
+    }
+
+    public Integer getOperatorId() {
+        return getContext().getOperatorId();
+    }
 }

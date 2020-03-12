@@ -14,7 +14,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @MapperScan(basePackages = "com.kelab.api.dal.dao")
 @EnableFeignClients(clients = {UserCenterService.class})
 public class ApiApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ApiApplication.class, args);
     }
