@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kelab.api.dal.dao.ApiRoleAuthModelMapper">
+
+    <resultMap id="BaseResultMap" type="com.kelab.api.dal.model.ApiRoleAuthModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="auth_id" property="authId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`, `role_id`, `auth_id`
+    </sql>
+
+    <select id="queryByRoleIdAndAuthId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `Api_role_auth`
+        where `role_id` = #{roleId, jdbcType=INTEGER}
+        and `auth_id` = #{authId, jdbcType=INTEGER}
+    </select>
+
+</mapper>
