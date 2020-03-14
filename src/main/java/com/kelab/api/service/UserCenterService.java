@@ -1,9 +1,13 @@
 package com.kelab.api.service;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @FeignClient(name = "service-usercenter")
 @RequestMapping("/usercenter")
@@ -13,49 +17,61 @@ public interface UserCenterService {
      * 获取验证码
      */
     @GetMapping("/pic.do")
-    JsonAndModel verifyPic(@RequestParam String logId, @RequestParam Integer operatorId);
+    JsonAndModel verifyPic(@RequestParam Map<String, Object> param);
 
     /**
      * 注册接口
      */
     @PostMapping("/user.do")
-    JsonAndModel register(@RequestParam String logId, @RequestParam Integer operatorId,
+    JsonAndModel register(@RequestParam Map<String, Object> context,
                           @RequestBody UserInfo userInfo);
 
     /**
      * 登录接口
      */
     @GetMapping("/user/signin.do")
-    JsonAndModel login(@RequestParam String logId, @RequestParam Integer operatorId,
-                       @RequestParam String username, @RequestParam String password,
-                       @RequestParam String verifyCode, @RequestParam String uuid);
+    JsonAndModel login(@RequestParam Map<String, Object> param);
 
     /**
      * 用户总数接口
      */
     @GetMapping("/user/total.do")
-    JsonAndModel countTotalUser(@RequestParam String logId, @RequestParam Integer operatorId);
+    JsonAndModel countTotalUser(@RequestParam Map<String, Object> param);
 
     /**
      * 找回密码
      */
     @GetMapping("/user/resetPasswd.do")
-    JsonAndModel resetPwdEmail(@RequestParam String logId, @RequestParam Integer operatorId,
-                               @RequestParam String username, @RequestParam String verifyCode,
-                               @RequestParam String uuid);
+    JsonAndModel resetPwdEmail(@RequestParam Map<String, Object> param);
 
     /**
      * 修改密码
      */
     @PutMapping("/user/resetPasswd.do")
-    JsonAndModel resetPwd(@RequestParam String logId, @RequestParam Integer operatorId,
+    JsonAndModel resetPwd(@RequestParam Map<String, Object> param,
                           @RequestBody String newPassword);
 
     /**
      * 提交排行榜
      */
     @GetMapping("/user/submit/statistic.do")
-    JsonAndModel submitStatistic(@RequestParam String logId, @RequestParam Integer operatorId,
-                                 @RequestParam Integer page, @RequestParam Integer rows,
-                                 @RequestParam Integer timeType);
+    JsonAndModel submitStatistic(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询用户
+     */
+    @GetMapping("/user.do")
+    JsonAndModel queryPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 更新用户
+     */
+    @PutMapping("/user.do")
+    JsonAndModel update(@RequestParam Map<String, Object> param, @RequestBody UserInfo userInfo);
+
+    /**
+     * 删除用户
+     */
+    @DeleteMapping("/user.do")
+    JsonAndModel delete(@RequestParam Map<String, Object> param);
 }

@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 @Aspect
 @Component
@@ -50,6 +53,7 @@ public class AuthAspect {
             roleId = UserRoleConstant.NOT_LOGIN;
         } else {
             try {
+                token = token.replaceAll(AuthConstant.TOKEN_PRE, "");
                 roleId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, AuthConstant.ROLE_ID);
                 userId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, AuthConstant.USER_ID);
             } catch (ExpiredJwtException e) {
@@ -62,7 +66,9 @@ public class AuthAspect {
         Context context = new Context();
         context.setLogId(UuidUtil.genUUID());
         context.setOperatorId(userId);
+        context.setOperatorRoleId(roleId);
         controller.setContext(context);
+        controller.getResponse().setHeader(AuthConstant.LOG_ID_HEADER, context.getLogId());
         // 鉴权
         String url = String.format("%s:%s",request.getMethod(), request.getRequestURI().replaceAll(request.getContextPath(), ""));
         ApiRoleAuthDomain domain = apiRoleAuthRepo.queryByRoleIdAndUrl(roleId, url);
@@ -73,6 +79,10 @@ public class AuthAspect {
         try {
             return joinPoint.proceed(args);
         } catch (Throwable throwable) {
+            // 保存堆栈信息
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            throwable.printStackTrace(pw);
             LOGGER.error("\n*************error occurred*************\n" +
                             "\tapi:{}\n" +
                             "\tdesc:{}\n" +
@@ -82,7 +92,7 @@ public class AuthAspect {
                             "\targs:{}\n" +
                             "\terr:{}\n" +
                             "*****************************************"
-                    , url, domain.getAuthDomain().getDesc(), context.getLogId(), userId, roleId, JSON.toJSONString(args), throwable.toString());
+                    , url, domain.getAuthDomain().getDesc(), context.getLogId(), userId, roleId, JSON.toJSONString(args), sw.toString());
             return JsonAndModel.builder(BaseRetCodeConstant.ERROR).build();
         }
     }
