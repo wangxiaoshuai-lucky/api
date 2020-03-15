@@ -8,6 +8,7 @@ import com.kelab.api.dal.domain.ApiRoleAuthDomain;
 import com.kelab.api.dal.repo.ApiRoleAuthRepo;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.base.constant.BaseRetCodeConstant;
+import com.kelab.info.base.constant.JsonWebTokenConstant;
 import com.kelab.info.base.constant.UserRoleConstant;
 import com.kelab.info.context.Context;
 import com.kelab.util.token.TokenUtil;
@@ -22,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -49,13 +49,15 @@ public class AuthAspect {
         HttpServletRequest request = controller.getRequest();
         String token = request.getHeader(AuthConstant.AUTH_HEADER_NAME);
         Integer roleId, userId = -1;
+        Long refreshExp = -1L;
         if (token == null) {
             roleId = UserRoleConstant.NOT_LOGIN;
         } else {
             try {
                 token = token.replaceAll(AuthConstant.TOKEN_PRE, "");
-                roleId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, AuthConstant.ROLE_ID);
-                userId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, AuthConstant.USER_ID);
+                roleId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, JsonWebTokenConstant.ROLE_ID);
+                userId = (Integer) TokenUtil.tokenValueOf(token, AppSetting.secretKey, JsonWebTokenConstant.USER_ID);
+                refreshExp = (Long) TokenUtil.tokenValueOf(token, AppSetting.secretKey, JsonWebTokenConstant.REFRESH_EXP_DATE);
             } catch (ExpiredJwtException e) {
                 return JsonAndModel.builder(BaseRetCodeConstant.JWT_IS_EXPIRE_ERROR).build();
             } catch (Exception e) {
@@ -67,10 +69,11 @@ public class AuthAspect {
         context.setLogId(UuidUtil.genUUID());
         context.setOperatorId(userId);
         context.setOperatorRoleId(roleId);
+        context.setFreshExp(refreshExp);
         controller.setContext(context);
         controller.getResponse().setHeader(AuthConstant.LOG_ID_HEADER, context.getLogId());
         // 鉴权
-        String url = String.format("%s:%s",request.getMethod(), request.getRequestURI().replaceAll(request.getContextPath(), ""));
+        String url = String.format("%s:%s", request.getMethod(), request.getRequestURI().replaceAll(request.getContextPath(), ""));
         ApiRoleAuthDomain domain = apiRoleAuthRepo.queryByRoleIdAndUrl(roleId, url);
         if (domain == null) {
             return JsonAndModel.builder(BaseRetCodeConstant.ILLEGAL_ACCESS_ERROR).build();

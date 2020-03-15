@@ -4,11 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.kelab.api.constant.AuthConstant;
 import com.kelab.info.context.Context;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class BaseController {
 
     @Autowired(required = false)

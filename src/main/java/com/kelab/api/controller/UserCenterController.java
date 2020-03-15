@@ -1,18 +1,16 @@
 package com.kelab.api.controller;
 
-import cn.wzy.verifyUtils.annotation.Verify;
-import com.alibaba.fastjson.JSON;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.PaginationResult;
-import com.kelab.info.base.constant.UserRoleConstant;
+import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.base.query.PageQuery;
 import com.kelab.info.base.query.UserQuery;
 import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.UserInfo;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,12 +28,14 @@ public class UserCenterController extends BaseController {
     public JsonAndModel verifyPic() {
         return userCenterService.verifyPic(buildParam());
     }
-//
+
+    //
     @PostMapping("/user.do")
     public JsonAndModel register(@RequestBody UserInfo userInfo) {
         return userCenterService.register(buildParam(), userInfo);
     }
-//
+
+    //
     @GetMapping("/user/signin.do")
     public JsonAndModel login(String username, String password, String verifyCode, String uuid) {
         Map<String, Object> param = new HashMap<>();
@@ -87,5 +87,15 @@ public class UserCenterController extends BaseController {
         Map<String, Object> param = new HashMap<>();
         param.put("uiids", uiids);
         return userCenterService.delete(buildParam(param));
+    }
+
+    @GetMapping("/user/online.do")
+    public JsonAndModel onlineUserId() {
+        return userCenterService.onlineUserId(buildParam());
+    }
+
+    @GetMapping("/user/jwt/refresh.do")
+    public JsonAndModel refreshJwt() {
+        return userCenterService.refreshJwt(buildParam());
     }
 }

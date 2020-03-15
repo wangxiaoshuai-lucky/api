@@ -1,7 +1,7 @@
 package com.kelab.api.service;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -74,4 +74,16 @@ public interface UserCenterService {
      */
     @DeleteMapping("/user.do")
     JsonAndModel delete(@RequestParam Map<String, Object> param);
+
+    /**
+     * 在线用户列表
+     */
+    @GetMapping("/user/online.do")
+    JsonAndModel onlineUserId(@RequestParam Map<String, Object> param);
+
+    /**
+     * 刷新 token
+     */
+    @GetMapping("/user/jwt/refresh.do")
+    JsonAndModel refreshJwt(@RequestParam Map<String, Object> param);
 }

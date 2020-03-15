@@ -10,7 +10,4 @@ public class AuthConstant {
 
     public static final String LOG_ID_HEADER = "log_id";
 
-    public static final String ROLE_ID = "role_id";
-
-    public static final String USER_ID = "user_id";
 }

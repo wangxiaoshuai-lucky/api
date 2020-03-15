@@ -1,6 +1,6 @@
 package com.kelab.api.dal.repo.impl;
 
-import com.kelab.api.constant.enums.CacheConstant;
+import com.kelab.api.constant.enums.CacheBizName;
 import com.kelab.api.convert.ApiAuthConvert;
 import com.kelab.api.dal.dao.ApiAuthMapper;
 import com.kelab.api.dal.domain.ApiAuthDomain;
@@ -25,7 +25,7 @@ public class ApiAuthRepoImpl implements ApiAuthRepo {
 
     @Override
     public ApiAuthDomain queryByUrl(String url) {
-        ApiAuthModel model = redisCache.cacheOne(CacheConstant.API_AUTH, url, ApiAuthModel.class, apiAuthMapper::queryByUrl);
+        ApiAuthModel model = redisCache.cacheOne(CacheBizName.API_AUTH, url, ApiAuthModel.class, apiAuthMapper::queryByUrl);
         return ApiAuthConvert.modelToDomain(model);
     }
 }

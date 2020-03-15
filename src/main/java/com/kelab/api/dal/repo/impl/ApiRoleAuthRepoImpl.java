@@ -1,6 +1,6 @@
 package com.kelab.api.dal.repo.impl;
 
-import com.kelab.api.constant.enums.CacheConstant;
+import com.kelab.api.constant.enums.CacheBizName;
 import com.kelab.api.convert.ApiRoleAuthConvert;
 import com.kelab.api.dal.dao.ApiRoleAuthModelMapper;
 import com.kelab.api.dal.domain.ApiAuthDomain;
@@ -35,7 +35,7 @@ public class ApiRoleAuthRepoImpl implements ApiRoleAuthRepo {
         if (authDomain == null) {
             return null;
         }
-        ApiRoleAuthModel apiRoleAuthModel = redisCache.cacheOne(CacheConstant.API_ROLE
+        ApiRoleAuthModel apiRoleAuthModel = redisCache.cacheOne(CacheBizName.API_ROLE
                 , buildCacheKey(roleId, authDomain.getId()), ApiRoleAuthModel.class
                 , missKey -> apiRoleAuthModelMapper.queryByRoleIdAndAuthId(roleId, authDomain.getId()));
         ApiRoleAuthDomain apiRoleAuthDomain = ApiRoleAuthConvert.modelToDomain(apiRoleAuthModel);
