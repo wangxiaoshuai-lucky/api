@@ -3,14 +3,11 @@ package com.kelab.api.controller;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
-import com.kelab.info.base.query.PageQuery;
-import com.kelab.info.base.query.UserQuery;
-import com.kelab.info.context.Context;
+import com.kelab.info.base.query.base.PageQuery;
+import com.kelab.info.base.query.usercenter.UserQuery;
 import com.kelab.info.usercenter.UserInfo;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
