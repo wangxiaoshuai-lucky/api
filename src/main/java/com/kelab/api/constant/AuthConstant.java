@@ -8,6 +8,6 @@ public class AuthConstant {
 
     public static final String TOKEN_PRE = "Bearer ";
 
-    public static final String LOG_ID_HEADER = "log_id";
+    public static final String LOG_ID_HEADER = "Log_Id";
 
 }

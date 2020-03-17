@@ -1,9 +1,7 @@
 package com.kelab.api.service;
 
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
-import com.kelab.info.context.Context;
-import com.kelab.info.usercenter.UserInfo;
+import com.kelab.info.usercenter.info.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

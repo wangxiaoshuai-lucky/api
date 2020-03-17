@@ -3,7 +3,12 @@ package com.kelab.api.controller;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.ProblemCenterService;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.problemcenter.ProblemUserMarkInfo;
+import com.kelab.info.base.constant.StatusMsgConstant;
+import com.kelab.info.context.Context;
+import com.kelab.info.problemcenter.info.ProblemInfo;
+import com.kelab.info.problemcenter.info.ProblemUserMarkInfo;
+import com.kelab.info.problemcenter.query.ProblemQuery;
+import com.kelab.info.problemcenter.query.ProblemTagsQuery;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,10 +40,24 @@ public class ProblemCenterController extends BaseController {
         return problemCenterService.collect(buildParam(param));
     }
 
-
     @PostMapping("/user/problem/collect.do")
     public JsonAndModel saveOrDeleteProblemCollect(@RequestBody ProblemUserMarkInfo problemUserMark) {
         return problemCenterService.saveOrDeleteProblemCollect(buildParam(), problemUserMark);
+    }
+
+    @GetMapping("/problem.do")
+    public JsonAndModel queryPage(ProblemQuery query) {
+        return problemCenterService.queryPage(buildParam(query));
+    }
+
+    @PostMapping("/problem.do")
+    public JsonAndModel queryPage(@RequestBody ProblemInfo problemInfo) {
+        return problemCenterService.save(buildParam(), problemInfo);
+    }
+
+    @GetMapping("/tags.do")
+    public JsonAndModel queryPage(ProblemTagsQuery query) {
+        return problemCenterService.queryTagsPage(buildParam(query));
     }
 
 }

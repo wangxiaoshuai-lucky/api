@@ -3,8 +3,10 @@ package com.kelab.api.config.aop;
 import com.alibaba.fastjson.JSON;
 import com.kelab.api.config.AppSetting;
 import com.kelab.api.constant.AuthConstant;
+import com.kelab.api.constant.enums.CacheBizName;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.dal.domain.ApiRoleAuthDomain;
+import com.kelab.api.dal.redis.RedisCache;
 import com.kelab.api.dal.repo.ApiRoleAuthRepo;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.base.constant.BaseRetCodeConstant;
@@ -34,8 +36,12 @@ public class AuthAspect {
 
     private final ApiRoleAuthRepo apiRoleAuthRepo;
 
-    public AuthAspect(ApiRoleAuthRepo apiRoleAuthRepo) {
+    private final RedisCache redisCache;
+
+    public AuthAspect(ApiRoleAuthRepo apiRoleAuthRepo,
+                      RedisCache redisCache) {
         this.apiRoleAuthRepo = apiRoleAuthRepo;
+        this.redisCache = redisCache;
     }
 
     @Pointcut("execution(public * com.kelab.api.controller.*.*(..)))")
@@ -43,7 +49,7 @@ public class AuthAspect {
     }
 
     @Around("pointcut()")
-    public Object setContext(ProceedingJoinPoint joinPoint) {
+    public Object setContext(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         BaseController controller = (BaseController) joinPoint.getTarget();
         HttpServletRequest request = controller.getRequest();
@@ -86,17 +92,19 @@ public class AuthAspect {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             throwable.printStackTrace(pw);
-            LOGGER.error("\n*************error occurred*************\n" +
-                            "\tapi:{}\n" +
-                            "\tdesc:{}\n" +
-                            "\tlogId:{}\n" +
-                            "\tuserId:{}\n" +
-                            "\troleId:{}\n" +
-                            "\targs:{}\n" +
-                            "\terr:{}\n" +
+            String errMsg = String.format("\n*************error occurred*************\n" +
+                            "\tapi:%s\n" +
+                            "\tdesc:%s\n" +
+                            "\tlogId:%s\n" +
+                            "\tuserId:%s\n" +
+                            "\troleId:%s\n" +
+                            "\targs:%s\n" +
+                            "\terr:%s\n" +
                             "*****************************************"
                     , url, domain.getAuthDomain().getDesc(), context.getLogId(), userId, roleId, JSON.toJSONString(args), sw.toString());
-            return JsonAndModel.builder(BaseRetCodeConstant.ERROR).build();
+            redisCache.saveLog(CacheBizName.LOG, context.getLogId(), errMsg);
+            LOGGER.error(errMsg);
+            throw throwable;
         }
     }
 }
