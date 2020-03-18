@@ -1,11 +1,16 @@
 package com.kelab.api.service;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
+import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.ProblemInfo;
+import com.kelab.info.problemcenter.info.ProblemTagsInfo;
 import com.kelab.info.problemcenter.info.ProblemUserMarkInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "service-problemcenter")
@@ -46,8 +51,53 @@ public interface ProblemCenterService {
                       @RequestBody ProblemInfo problemInfo);
 
     /**
+     * 删除题目
+     */
+    @DeleteMapping("/problem.do")
+    JsonAndModel delete(@RequestParam Map<String, Object> param);
+
+    /**
+     * 修改题目
+     */
+    @PutMapping("/problem.do")
+    JsonAndModel update(@RequestParam Map<String, Object> param,
+                        @RequestBody ProblemInfo record);
+
+    /**
+     * 题目总数
+     */
+    @GetMapping("/problem/count.do")
+    JsonAndModel problemTotal(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询来源列表
+     */
+    @GetMapping("/problem/source.do")
+    JsonAndModel querySource(@RequestParam Map<String, Object> param);
+
+    /**
      * 分页查询标签
      */
     @GetMapping("/tags.do")
     JsonAndModel queryTagsPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 添加标签
+     */
+    @PostMapping("/tags.do")
+    JsonAndModel save(@RequestParam Map<String, Object> param,
+                      @RequestBody ProblemTagsInfo record);
+
+    /**
+     * 修改标签
+     */
+    @PutMapping("/tags.do")
+    JsonAndModel update(@RequestParam Map<String, Object> param,
+                        @RequestBody ProblemTagsInfo record);
+
+    /**
+     * 删除标签
+     */
+    @DeleteMapping("/tags.do")
+    JsonAndModel deleteTags(@RequestParam Map<String, Object> param);
 }
