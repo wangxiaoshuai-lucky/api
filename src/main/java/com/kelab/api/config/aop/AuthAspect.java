@@ -16,6 +16,7 @@ import com.kelab.info.context.Context;
 import com.kelab.util.token.TokenUtil;
 import com.kelab.util.uuid.UuidUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -56,7 +57,7 @@ public class AuthAspect {
         String token = request.getHeader(AuthConstant.AUTH_HEADER_NAME);
         Integer roleId, userId = -1;
         Long refreshExp = -1L;
-        if (token == null) {
+        if (StringUtils.isBlank(token)) {
             roleId = UserRoleConstant.NOT_LOGIN;
         } else {
             try {

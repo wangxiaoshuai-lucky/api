@@ -16,6 +16,7 @@
     <description>api网关服务</description>
     <properties>
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
     </properties>
     <profiles>
@@ -26,7 +27,7 @@
             </activation>
         </profile>
     </profiles>
-    
+
     <!--依赖的版本管理-->
     <dependencyManagement>
         <dependencies>

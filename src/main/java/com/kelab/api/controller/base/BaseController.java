@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @CrossOrigin(origins = "*",maxAge = 3600)
+@SuppressWarnings("unchecked")
 public class BaseController {
 
     @Autowired(required = false)

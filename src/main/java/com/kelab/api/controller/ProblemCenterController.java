@@ -1,12 +1,10 @@
 package com.kelab.api.controller;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.ProblemCenterService;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
-import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.ProblemInfo;
+import com.kelab.info.problemcenter.info.ProblemSubmitRecordQuery;
 import com.kelab.info.problemcenter.info.ProblemTagsInfo;
 import com.kelab.info.problemcenter.info.ProblemUserMarkInfo;
 import com.kelab.info.problemcenter.query.ProblemQuery;
@@ -16,7 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -115,6 +112,18 @@ public class ProblemCenterController extends BaseController {
         Map<String, Object> param = new HashMap<>();
         param.put("ids", ids);
         return problemCenterService.deleteTags(buildParam(param));
+    }
+
+    @ApiOperation(value = "查询提交记录")
+    @GetMapping("/submit.do")
+    public JsonAndModel queryPage(ProblemSubmitRecordQuery query) {
+        return problemCenterService.querySubmitRecordPage(buildParam(query));
+    }
+
+    @ApiOperation(value = "查询总提交量")
+    @GetMapping("/submit/count.do")
+    public JsonAndModel judgeCount() {
+        return problemCenterService.judgeCount(buildParam());
     }
 
 }

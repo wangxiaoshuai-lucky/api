@@ -1,16 +1,12 @@
 package com.kelab.api.service;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
-import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.ProblemInfo;
 import com.kelab.info.problemcenter.info.ProblemTagsInfo;
 import com.kelab.info.problemcenter.info.ProblemUserMarkInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "service-problemcenter")
@@ -100,4 +96,16 @@ public interface ProblemCenterService {
      */
     @DeleteMapping("/tags.do")
     JsonAndModel deleteTags(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询提交记录
+     */
+    @GetMapping("/submit.do")
+    JsonAndModel querySubmitRecordPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询总提交量
+     */
+    @GetMapping("/submit/count.do")
+    JsonAndModel judgeCount(@RequestParam Map<String, Object> param);
 }
