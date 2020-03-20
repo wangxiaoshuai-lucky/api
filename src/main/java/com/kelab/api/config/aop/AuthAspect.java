@@ -8,6 +8,7 @@ import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.dal.domain.ApiRoleAuthDomain;
 import com.kelab.api.dal.redis.RedisCache;
 import com.kelab.api.dal.repo.ApiRoleAuthRepo;
+import com.kelab.info.base.ExceptionInfo;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.base.constant.BaseRetCodeConstant;
 import com.kelab.info.base.constant.JsonWebTokenConstant;
@@ -15,6 +16,7 @@ import com.kelab.info.base.constant.UserRoleConstant;
 import com.kelab.info.context.Context;
 import com.kelab.util.token.TokenUtil;
 import com.kelab.util.uuid.UuidUtil;
+import feign.FeignException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -88,7 +90,13 @@ public class AuthAspect {
         // 放行
         try {
             return joinPoint.proceed(args);
-        } catch (Throwable throwable) {
+        } catch (Exception throwable) {
+            if (throwable instanceof FeignException) {
+                String message = JSON.parseObject(((FeignException) throwable).contentUTF8(), ExceptionInfo.class).getMessage();
+                if (StringUtils.isNotBlank(message)) {
+                    throwable = new RuntimeException(throwable.getMessage() + ":::" + message);
+                }
+            }
             // 保存堆栈信息
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);

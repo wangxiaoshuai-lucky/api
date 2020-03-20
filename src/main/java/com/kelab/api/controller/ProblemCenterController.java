@@ -3,11 +3,13 @@ package com.kelab.api.controller;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.ProblemCenterService;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.ProblemInfo;
-import com.kelab.info.problemcenter.info.ProblemSubmitRecordQuery;
+import com.kelab.info.problemcenter.info.ProblemSubmitRecordInfo;
 import com.kelab.info.problemcenter.info.ProblemTagsInfo;
 import com.kelab.info.problemcenter.info.ProblemUserMarkInfo;
 import com.kelab.info.problemcenter.query.ProblemQuery;
+import com.kelab.info.problemcenter.query.ProblemSubmitRecordQuery;
 import com.kelab.info.problemcenter.query.ProblemTagsQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -117,6 +119,7 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "查询提交记录")
     @GetMapping("/submit.do")
     public JsonAndModel queryPage(ProblemSubmitRecordQuery query) {
+        setContext(new Context());
         return problemCenterService.querySubmitRecordPage(buildParam(query));
     }
 
@@ -124,6 +127,12 @@ public class ProblemCenterController extends BaseController {
     @GetMapping("/submit/count.do")
     public JsonAndModel judgeCount() {
         return problemCenterService.judgeCount(buildParam());
+    }
+
+    @ApiOperation(value = "提交判题")
+    @PostMapping("/submit.do")
+    public JsonAndModel submit(@RequestBody ProblemSubmitRecordInfo record) {
+        return problemCenterService.submit(buildParam(), record);
     }
 
 }

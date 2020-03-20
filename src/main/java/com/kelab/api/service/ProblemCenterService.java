@@ -2,6 +2,7 @@ package com.kelab.api.service;
 
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.problemcenter.info.ProblemInfo;
+import com.kelab.info.problemcenter.info.ProblemSubmitRecordInfo;
 import com.kelab.info.problemcenter.info.ProblemTagsInfo;
 import com.kelab.info.problemcenter.info.ProblemUserMarkInfo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -108,4 +109,11 @@ public interface ProblemCenterService {
      */
     @GetMapping("/submit/count.do")
     JsonAndModel judgeCount(@RequestParam Map<String, Object> param);
+
+    /**
+     * 提交判题
+     */
+    @PostMapping("/submit.do")
+    JsonAndModel submit(@RequestParam Map<String, Object> param,
+                        @RequestBody ProblemSubmitRecordInfo record);
 }

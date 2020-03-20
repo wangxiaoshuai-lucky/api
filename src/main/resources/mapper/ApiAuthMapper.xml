@@ -17,6 +17,7 @@
         <include refid="Base_Column_List"/>
         from `Api_auth`
         where `url` = #{url, jdbcType=VARCHAR}
+        limit 1
     </select>
 
 </mapper>
