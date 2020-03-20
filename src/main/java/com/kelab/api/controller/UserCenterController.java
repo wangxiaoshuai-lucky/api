@@ -26,8 +26,11 @@ public class UserCenterController extends BaseController {
 
     @ApiOperation(value = "获取验证码")
     @GetMapping("/pic.do")
-    public JsonAndModel verifyPic() {
-        return userCenterService.verifyPic(buildParam());
+    public JsonAndModel verifyPic(Integer w, Integer h) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("w", w);
+        param.put("h", h);
+        return userCenterService.verifyPic(buildParam(param));
     }
 
     @ApiOperation(value = "注册用户")
