@@ -1,6 +1,8 @@
 package com.kelab.api.service;
 
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
+import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -78,6 +80,18 @@ public interface UserCenterService {
      */
     @GetMapping("/user/online.do")
     JsonAndModel onlineUserId(@RequestParam Map<String, Object> param);
+
+    /**
+     * 今日AC/Submit量
+     */
+    @GetMapping("/submit/todayCount.do")
+    JsonAndModel todayCount(@RequestParam Map<String, Object> param);
+
+    /**
+     * 在线总人数
+     */
+    @GetMapping("/user/online/total.do")
+    JsonAndModel onlineCount(@RequestParam Map<String, Object> param);
 
     /**
      * 刷新 token

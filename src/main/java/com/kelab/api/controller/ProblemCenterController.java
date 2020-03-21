@@ -135,4 +135,12 @@ public class ProblemCenterController extends BaseController {
         return problemCenterService.submit(buildParam(), record);
     }
 
+    @ApiOperation(value = "查询提交细节：源码和错误信息")
+    @GetMapping("/submit/detail.do")
+    public JsonAndModel querySubmitDetail(Integer submitId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("submitId", submitId);
+        return problemCenterService.querySubmitDetail(buildParam(param));
+    }
+
 }

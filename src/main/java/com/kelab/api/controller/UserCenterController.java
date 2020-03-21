@@ -3,7 +3,9 @@ package com.kelab.api.controller;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.base.query.PageQuery;
+import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.UserInfo;
 import com.kelab.info.usercenter.query.UserQuery;
 import io.swagger.annotations.Api;
@@ -104,6 +106,18 @@ public class UserCenterController extends BaseController {
     @GetMapping("/user/online.do")
     public JsonAndModel onlineUserId() {
         return userCenterService.onlineUserId(buildParam());
+    }
+
+    @ApiOperation(value = "今日AC/Submit量")
+    @GetMapping("/submit/todayCount.do")
+    public JsonAndModel submitStatistic() {
+        return userCenterService.todayCount(buildParam());
+    }
+
+    @ApiOperation(value = "在线总人数")
+    @GetMapping("/user/online/total.do")
+    public JsonAndModel onlineCount() {
+        return userCenterService.onlineCount(buildParam());
     }
 
     @ApiOperation(value = "刷新token")

@@ -1,6 +1,9 @@
 package com.kelab.api.service;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
+import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.ProblemInfo;
 import com.kelab.info.problemcenter.info.ProblemSubmitRecordInfo;
 import com.kelab.info.problemcenter.info.ProblemTagsInfo;
@@ -116,4 +119,10 @@ public interface ProblemCenterService {
     @PostMapping("/submit.do")
     JsonAndModel submit(@RequestParam Map<String, Object> param,
                         @RequestBody ProblemSubmitRecordInfo record);
+
+    /**
+     * 查询提交细节：源码和错误信息
+     */
+    @GetMapping("/submit/detail.do")
+    JsonAndModel querySubmitDetail(@RequestParam Map<String, Object> param);
 }
