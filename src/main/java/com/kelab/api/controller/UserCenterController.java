@@ -1,18 +1,24 @@
 package com.kelab.api.controller;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.base.query.PageQuery;
 import com.kelab.info.context.Context;
+import com.kelab.info.usercenter.info.ScrollPictureInfo;
 import com.kelab.info.usercenter.info.UserInfo;
+import com.kelab.info.usercenter.query.ScrollPictureQuery;
 import com.kelab.info.usercenter.query.UserQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -124,5 +130,46 @@ public class UserCenterController extends BaseController {
     @GetMapping("/user/jwt/refresh.do")
     public JsonAndModel refreshJwt() {
         return userCenterService.refreshJwt(buildParam());
+    }
+
+    @ApiOperation(value = "文件上传,返回下载连接")
+    @PostMapping(value = "/file.do", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public JsonAndModel upload(@RequestBody MultipartFile file) {
+        return userCenterService.upload(buildParam(), file);
+    }
+
+    @ApiOperation(value = "查询滚动图片")
+    @GetMapping("/scrollPicture.do")
+    public JsonAndModel queryScrollPicture(ScrollPictureQuery query) {
+        return userCenterService.queryScrollPicture(buildParam(query));
+    }
+
+    /**
+     * 更新滚动图片
+     */
+    @ApiOperation(value = "更新滚动图片")
+    @PutMapping("/scrollPicture.do")
+    public JsonAndModel updateScrollPicture(@RequestBody ScrollPictureInfo record) {
+        return userCenterService.updateScrollPicture(buildParam(), record);
+    }
+
+    /**
+     * 添加滚动图片
+     */
+    @ApiOperation(value = "添加滚动图片")
+    @PostMapping("/scrollPicture.do")
+    public JsonAndModel saveScrollPicture(@RequestBody ScrollPictureInfo record) {
+        return userCenterService.saveScrollPicture(buildParam(),record);
+    }
+
+    /**
+     * 删除滚动图片
+     */
+    @ApiOperation(value = "删除滚动图片")
+    @DeleteMapping("/scrollPicture.do")
+    public JsonAndModel deleteScrollPicture(String ids) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("ids", ids);
+        return userCenterService.deleteScrollPicture(buildParam(param));
     }
 }
