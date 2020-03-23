@@ -1,20 +1,14 @@
 package com.kelab.api.service;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
-import com.kelab.info.context.Context;
+import com.kelab.info.usercenter.info.NewsInfo;
 import com.kelab.info.usercenter.info.ScrollPictureInfo;
 import com.kelab.info.usercenter.info.UserInfo;
-import com.kelab.info.usercenter.query.ScrollPictureQuery;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "service-usercenter")
@@ -139,4 +133,36 @@ public interface UserCenterService {
      */
     @DeleteMapping("/scrollPicture.do")
     JsonAndModel deleteScrollPicture(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询新闻
+     */
+    @GetMapping("/news.do")
+    JsonAndModel queryNewsPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 更新新闻
+     */
+    @PutMapping("/news.do")
+    JsonAndModel updateNews(@RequestParam Map<String, Object> param,
+                            @RequestBody NewsInfo record);
+
+    /**
+     * 添加新闻
+     */
+    @PostMapping("/news.do")
+    JsonAndModel saveNews(@RequestParam Map<String, Object> param,
+                          @RequestBody NewsInfo record);
+
+    /**
+     * 删除新闻
+     */
+    @DeleteMapping("/news.do")
+    JsonAndModel deleteNews(@RequestParam Map<String, Object> param);
+
+    /**
+     * 访问量+1
+     */
+    @PutMapping("/news/viewnum.do")
+    JsonAndModel updateNewsViewNum(@RequestParam Map<String, Object> param);
 }

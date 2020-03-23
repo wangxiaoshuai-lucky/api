@@ -7,8 +7,10 @@ import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.base.query.PageQuery;
 import com.kelab.info.context.Context;
+import com.kelab.info.usercenter.info.NewsInfo;
 import com.kelab.info.usercenter.info.ScrollPictureInfo;
 import com.kelab.info.usercenter.info.UserInfo;
+import com.kelab.info.usercenter.query.NewsQuery;
 import com.kelab.info.usercenter.query.ScrollPictureQuery;
 import com.kelab.info.usercenter.query.UserQuery;
 import io.swagger.annotations.Api;
@@ -144,32 +146,57 @@ public class UserCenterController extends BaseController {
         return userCenterService.queryScrollPicture(buildParam(query));
     }
 
-    /**
-     * 更新滚动图片
-     */
     @ApiOperation(value = "更新滚动图片")
     @PutMapping("/scrollPicture.do")
     public JsonAndModel updateScrollPicture(@RequestBody ScrollPictureInfo record) {
         return userCenterService.updateScrollPicture(buildParam(), record);
     }
 
-    /**
-     * 添加滚动图片
-     */
     @ApiOperation(value = "添加滚动图片")
     @PostMapping("/scrollPicture.do")
     public JsonAndModel saveScrollPicture(@RequestBody ScrollPictureInfo record) {
         return userCenterService.saveScrollPicture(buildParam(),record);
     }
 
-    /**
-     * 删除滚动图片
-     */
     @ApiOperation(value = "删除滚动图片")
     @DeleteMapping("/scrollPicture.do")
     public JsonAndModel deleteScrollPicture(String ids) {
         Map<String, Object> param = new HashMap<>();
         param.put("ids", ids);
         return userCenterService.deleteScrollPicture(buildParam(param));
+    }
+
+    @ApiOperation(value = "查询新闻")
+    @GetMapping("/news.do")
+    public JsonAndModel queryNewsPage(NewsQuery query) {
+        return userCenterService.queryNewsPage(buildParam(query));
+    }
+
+    @ApiOperation(value = "更新新闻")
+    @PutMapping("/news.do")
+    public JsonAndModel updateNews(@RequestBody NewsInfo record) {
+        return userCenterService.updateNews(buildParam(), record);
+    }
+
+    @ApiOperation(value = "添加新闻")
+    @PostMapping("/news.do")
+    public JsonAndModel saveNews(@RequestBody NewsInfo record) {
+        return userCenterService.saveNews(buildParam(), record);
+    }
+
+    @ApiOperation(value = "删除新闻")
+    @DeleteMapping("/news.do")
+    public JsonAndModel deleteNews(String ids) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("ids", ids);
+        return userCenterService.deleteNews(buildParam(param));
+    }
+
+    @ApiOperation(value = "访问量+1")
+    @PutMapping("/news/viewnum.do")
+    public JsonAndModel updateNewsViewNum(Integer id) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("id", id);
+        return userCenterService.updateNewsViewNum(buildParam(param));
     }
 }
