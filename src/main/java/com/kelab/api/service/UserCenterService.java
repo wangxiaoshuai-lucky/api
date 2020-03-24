@@ -2,16 +2,12 @@ package com.kelab.api.service;
 
 import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
-import com.kelab.info.base.query.BaseQuery;
-import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "service-usercenter")
@@ -253,4 +249,24 @@ public interface UserCenterService {
      */
     @DeleteMapping("/competition.do")
     JsonAndModel deleteCompetition(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询竞赛队伍
+     */
+    @GetMapping("/competition/team.do")
+    JsonAndModel queryCompetitionTeamPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 添加团队
+     */
+    @PostMapping("/competition/team.do")
+    JsonAndModel saveTeam(@RequestParam Map<String, Object> param,
+                          @RequestBody CompetitionTeamStudentInfo record);
+
+    /**
+     * 审核团队
+     */
+    @PutMapping("/competition/team.do")
+    JsonAndModel updateTeam(@RequestParam Map<String, Object> param,
+                                   @RequestBody CompetitionTeamInfo teamInfo);
 }

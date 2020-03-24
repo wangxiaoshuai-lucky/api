@@ -1,15 +1,15 @@
 package com.kelab.api.controller;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.base.query.BaseQuery;
 import com.kelab.info.base.query.PageQuery;
+import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.*;
-import com.kelab.info.usercenter.query.NewsQuery;
-import com.kelab.info.usercenter.query.NewsRollQuery;
-import com.kelab.info.usercenter.query.ScrollPictureQuery;
-import com.kelab.info.usercenter.query.UserQuery;
+import com.kelab.info.usercenter.query.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
@@ -278,5 +278,23 @@ public class UserCenterController extends BaseController {
         Map<String, Object> param = new HashMap<>();
         param.put("ids", ids);
         return userCenterService.deleteCompetition(buildParam(param));
+    }
+
+    @ApiOperation(value = "查询竞赛队伍")
+    @GetMapping("/competition/team.do")
+    public JsonAndModel queryCompetitionTeamPage(CompetitionTeamQuery query) {
+        return userCenterService.queryCompetitionTeamPage(buildParam(query));
+    }
+
+    @ApiOperation(value = "添加团队")
+    @PostMapping("/competition/team.do")
+    public JsonAndModel saveTeam(@RequestBody CompetitionTeamStudentInfo record) {
+        return userCenterService.saveTeam(buildParam(), record);
+    }
+
+    @ApiOperation(value = "审核团队")
+    @PutMapping("/competition/team.do")
+    public JsonAndModel updateTeam(@RequestBody CompetitionTeamInfo teamInfo) {
+        return userCenterService.updateTeam(buildParam(), teamInfo);
     }
 }
