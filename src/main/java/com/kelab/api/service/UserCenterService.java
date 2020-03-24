@@ -1,12 +1,17 @@
 package com.kelab.api.service;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
+import com.kelab.info.base.query.BaseQuery;
+import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "service-usercenter")
@@ -222,4 +227,30 @@ public interface UserCenterService {
     @PutMapping("/about/order.do")
     JsonAndModel changeAboutOrder(@RequestParam Map<String, Object> param,
                                   @RequestBody ChangeOrderInfo record);
+
+    /**
+     * 查询竞赛
+     */
+    @GetMapping("/competition.do")
+    JsonAndModel queryCompetitionPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 更新竞赛
+     */
+    @PutMapping("/competition.do")
+    JsonAndModel updateCompetition(@RequestParam Map<String, Object> param,
+                                   @RequestBody CompetitionInfo record);
+
+    /**
+     * 添加竞赛
+     */
+    @PostMapping("/competition.do")
+    JsonAndModel saveCompetition(@RequestParam Map<String, Object> param,
+                                 @RequestBody CompetitionInfo record);
+
+    /**
+     * 删除竞赛
+     */
+    @DeleteMapping("/competition.do")
+    JsonAndModel deleteCompetition(@RequestParam Map<String, Object> param);
 }

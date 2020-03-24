@@ -64,9 +64,9 @@ public class ProblemCenterController extends BaseController {
 
     @ApiOperation(value = "删除题目")
     @DeleteMapping("/problem.do")
-    public JsonAndModel delete(String pids) {
+    public JsonAndModel delete(String ids) {
         Map<String, Object> param = new HashMap<>();
-        param.put("pids", pids);
+        param.put("ids", ids);
         return problemCenterService.delete(buildParam(param));
     }
 

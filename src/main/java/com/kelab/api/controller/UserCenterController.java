@@ -1,13 +1,10 @@
 package com.kelab.api.controller;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.base.query.BaseQuery;
 import com.kelab.info.base.query.PageQuery;
-import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.*;
 import com.kelab.info.usercenter.query.NewsQuery;
 import com.kelab.info.usercenter.query.NewsRollQuery;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -104,9 +100,9 @@ public class UserCenterController extends BaseController {
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/user.do")
-    public JsonAndModel delete(String uiids) {
+    public JsonAndModel delete(String ids) {
         Map<String, Object> param = new HashMap<>();
-        param.put("uiids", uiids);
+        param.put("ids", ids);
         return userCenterService.delete(buildParam(param));
     }
 
@@ -220,7 +216,7 @@ public class UserCenterController extends BaseController {
 
     @ApiOperation(value = "删除通知")
     @DeleteMapping("/newsroll.do")
-    public JsonAndModel deleteNewsRoll(List<Integer> ids) {
+    public JsonAndModel deleteNewsRoll(String ids) {
         Map<String, Object> param = new HashMap<>();
         param.put("ids", ids);
         return userCenterService.deleteNewsRoll(buildParam(param));
@@ -256,5 +252,31 @@ public class UserCenterController extends BaseController {
     @PutMapping("/about/order.do")
     public JsonAndModel changeAboutOrder(@RequestBody ChangeOrderInfo record) {
         return userCenterService.changeAboutOrder(buildParam(), record);
+    }
+
+    @ApiOperation(value = "查询竞赛")
+    @GetMapping("/competition.do")
+    public JsonAndModel queryCompetitionPage(BaseQuery query) {
+        return userCenterService.queryCompetitionPage(buildParam(query));
+    }
+
+    @ApiOperation(value = "更新竞赛")
+    @PutMapping("/competition.do")
+    public JsonAndModel updateCompetition(@RequestBody CompetitionInfo record) {
+        return userCenterService.updateCompetition(buildParam(), record);
+    }
+
+    @ApiOperation(value = "添加竞赛")
+    @PostMapping("/competition.do")
+    public JsonAndModel saveCompetition(@RequestBody CompetitionInfo record) {
+        return userCenterService.saveCompetition(buildParam(), record);
+    }
+
+    @ApiOperation(value = "删除竞赛")
+    @DeleteMapping("/competition.do")
+    public JsonAndModel deleteCompetition(String ids) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("ids", ids);
+        return userCenterService.deleteCompetition(buildParam(param));
     }
 }
