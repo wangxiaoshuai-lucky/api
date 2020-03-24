@@ -1,20 +1,12 @@
 package com.kelab.api.service;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
-import com.kelab.info.context.Context;
-import com.kelab.info.usercenter.info.NewsInfo;
-import com.kelab.info.usercenter.info.NewsRollInfo;
-import com.kelab.info.usercenter.info.ScrollPictureInfo;
-import com.kelab.info.usercenter.info.UserInfo;
-import com.kelab.info.usercenter.query.NewsRollQuery;
+import com.kelab.info.usercenter.info.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "service-usercenter")
@@ -197,4 +189,37 @@ public interface UserCenterService {
      */
     @DeleteMapping("/newsroll.do")
     JsonAndModel deleteNewsRoll(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询关于
+     */
+    @GetMapping("/about.do")
+    JsonAndModel queryAboutPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 更新关于
+     */
+    @PutMapping("/about.do")
+    JsonAndModel updateAbout(@RequestParam Map<String, Object> param,
+                             @RequestBody AboutInfo record);
+
+    /**
+     * 添加关于
+     */
+    @PostMapping("/about.do")
+    JsonAndModel saveAbout(@RequestParam Map<String, Object> param,
+                           @RequestBody AboutInfo record);
+
+    /**
+     * 删除关于
+     */
+    @DeleteMapping("/about.do")
+    JsonAndModel deleteAbout(@RequestParam Map<String, Object> param);
+
+    /**
+     * 更新关于的顺序
+     */
+    @PutMapping("/about/order.do")
+    JsonAndModel changeAboutOrder(@RequestParam Map<String, Object> param,
+                                  @RequestBody ChangeOrderInfo record);
 }

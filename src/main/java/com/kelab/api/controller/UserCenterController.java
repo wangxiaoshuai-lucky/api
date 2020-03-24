@@ -1,13 +1,14 @@
 package com.kelab.api.controller;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
+import com.kelab.info.base.query.BaseQuery;
 import com.kelab.info.base.query.PageQuery;
-import com.kelab.info.usercenter.info.NewsInfo;
-import com.kelab.info.usercenter.info.NewsRollInfo;
-import com.kelab.info.usercenter.info.ScrollPictureInfo;
-import com.kelab.info.usercenter.info.UserInfo;
+import com.kelab.info.context.Context;
+import com.kelab.info.usercenter.info.*;
 import com.kelab.info.usercenter.query.NewsQuery;
 import com.kelab.info.usercenter.query.NewsRollQuery;
 import com.kelab.info.usercenter.query.ScrollPictureQuery;
@@ -223,5 +224,37 @@ public class UserCenterController extends BaseController {
         Map<String, Object> param = new HashMap<>();
         param.put("ids", ids);
         return userCenterService.deleteNewsRoll(buildParam(param));
+    }
+
+    @ApiOperation(value = "查询关于")
+    @GetMapping("/about.do")
+    public JsonAndModel queryAboutPage(BaseQuery query) {
+        return userCenterService.queryAboutPage(buildParam(query));
+    }
+
+    @ApiOperation(value = "更新关于")
+    @PutMapping("/about.do")
+    public JsonAndModel updateAbout(@RequestBody AboutInfo record) {
+        return userCenterService.updateAbout(buildParam(), record);
+    }
+
+    @ApiOperation(value = "添加关于")
+    @PostMapping("/about.do")
+    public JsonAndModel saveAbout(@RequestBody AboutInfo record) {
+        return userCenterService.saveAbout(buildParam(), record);
+    }
+
+    @ApiOperation(value = "删除关于")
+    @DeleteMapping("/about.do")
+    public JsonAndModel deleteAbout(String ids) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("ids", ids);
+        return userCenterService.deleteAbout(buildParam(param));
+    }
+
+    @ApiOperation(value = "更新关于的顺序")
+    @PutMapping("/about/order.do")
+    public JsonAndModel changeAboutOrder(@RequestBody ChangeOrderInfo record) {
+        return userCenterService.changeAboutOrder(buildParam(), record);
     }
 }
