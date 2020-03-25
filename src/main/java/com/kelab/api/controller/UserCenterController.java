@@ -1,13 +1,10 @@
 package com.kelab.api.controller;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.base.query.BaseQuery;
 import com.kelab.info.base.query.PageQuery;
-import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.*;
 import com.kelab.info.usercenter.query.*;
 import io.swagger.annotations.Api;
@@ -296,5 +293,13 @@ public class UserCenterController extends BaseController {
     @PutMapping("/competition/team.do")
     public JsonAndModel updateTeam(@RequestBody CompetitionTeamInfo teamInfo) {
         return userCenterService.updateTeam(buildParam(), teamInfo);
+    }
+
+    @ApiOperation(value = "登录，ac,submit 走势图")
+    @GetMapping("/online.do")
+    public JsonAndModel queryOnlineStatistic(Integer type) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("type", type);
+        return userCenterService.queryOnlineStatistic(buildParam(param));
     }
 }
