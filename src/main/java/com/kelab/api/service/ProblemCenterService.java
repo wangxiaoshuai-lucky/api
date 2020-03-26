@@ -1,6 +1,9 @@
 package com.kelab.api.service;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
+import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.ProblemInfo;
 import com.kelab.info.problemcenter.info.ProblemSubmitRecordInfo;
 import com.kelab.info.problemcenter.info.ProblemTagsInfo;
@@ -128,4 +131,10 @@ public interface ProblemCenterService {
      */
     @GetMapping("/user/submit/milestone.do")
     JsonAndModel queryMilestone(@RequestParam Map<String, Object> param);
+
+    /**
+     * 一周内提交次数
+     */
+    @GetMapping("/submit/static.do")
+    JsonAndModel queryStatic(@RequestParam Map<String, Object> param);
 }

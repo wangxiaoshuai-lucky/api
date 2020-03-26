@@ -149,4 +149,12 @@ public class ProblemCenterController extends BaseController {
         return problemCenterService.queryMilestone(buildParam());
     }
 
+    @ApiOperation(value = "一周内提交次数")
+    @GetMapping("/submit/static.do")
+    public JsonAndModel queryStatic(Integer userId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId", userId);
+        return problemCenterService.queryStatic(buildParam(param));
+    }
+
 }
