@@ -1,12 +1,10 @@
 package com.kelab.api.controller;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.base.query.BaseQuery;
 import com.kelab.info.base.query.PageQuery;
-import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.*;
 import com.kelab.info.usercenter.query.*;
 import feign.Response;
@@ -316,7 +314,7 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "导出比赛团队信息")
     @GetMapping("/competition/export.do")
     public Object downloadTeamMessage(@RequestParam Integer competitionId) {
-        ResponseEntity<byte[]> result=null ;
+        ResponseEntity<byte[]> result = null;
         InputStream inputStream = null;
         try {
             // feign文件下载
@@ -330,12 +328,12 @@ public class UserCenterController extends BaseController {
             HttpHeaders heads = new HttpHeaders();
             Collection<String> strings = response.headers().get(HttpHeaders.CONTENT_DISPOSITION);
             heads.add(HttpHeaders.CONTENT_DISPOSITION, StringUtils.join(strings, ";"));
-            heads.add(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_UTF8_VALUE);
-            result = new ResponseEntity <>(b,heads, HttpStatus.OK);
+            heads.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+            result = new ResponseEntity<>(b, heads, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if(inputStream != null){
+            if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {

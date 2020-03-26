@@ -3,7 +3,6 @@ package com.kelab.api.controller;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.ProblemCenterService;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.*;
 import com.kelab.info.problemcenter.query.ProblemNoteQuery;
 import com.kelab.info.problemcenter.query.ProblemQuery;
@@ -115,7 +114,6 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "查询提交记录")
     @GetMapping("/submit.do")
     public JsonAndModel queryPage(ProblemSubmitRecordQuery query) {
-        setContext(new Context());
         return problemCenterService.querySubmitRecordPage(buildParam(query));
     }
 
