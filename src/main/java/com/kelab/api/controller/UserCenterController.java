@@ -1,18 +1,28 @@
 package com.kelab.api.controller;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.UserCenterService;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.base.query.BaseQuery;
 import com.kelab.info.base.query.PageQuery;
+import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.*;
 import com.kelab.info.usercenter.query.*;
+import feign.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -301,5 +311,38 @@ public class UserCenterController extends BaseController {
         Map<String, Object> param = new HashMap<>();
         param.put("type", type);
         return userCenterService.queryOnlineStatistic(buildParam(param));
+    }
+
+    @ApiOperation(value = "导出比赛团队信息")
+    @GetMapping("/competition/export.do")
+    public Object downloadTeamMessage(@RequestParam Integer competitionId) {
+        ResponseEntity<byte[]> result=null ;
+        InputStream inputStream = null;
+        try {
+            // feign文件下载
+            Map<String, Object> param = new HashMap<>();
+            param.put("competitionId", competitionId);
+            Response response = userCenterService.downloadTeamMessage(buildParam(param));
+            Response.Body body = response.body();
+            inputStream = body.asInputStream();
+            byte[] b = new byte[inputStream.available()];
+            inputStream.read(b);
+            HttpHeaders heads = new HttpHeaders();
+            Collection<String> strings = response.headers().get(HttpHeaders.CONTENT_DISPOSITION);
+            heads.add(HttpHeaders.CONTENT_DISPOSITION, StringUtils.join(strings, ";"));
+            heads.add(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_UTF8_VALUE);
+            result = new ResponseEntity <>(b,heads, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 }

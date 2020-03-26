@@ -1,10 +1,8 @@
 package com.kelab.api.service;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
-import com.kelab.info.context.Context;
 import com.kelab.info.usercenter.info.*;
+import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -270,11 +268,17 @@ public interface UserCenterService {
      */
     @PutMapping("/competition/team.do")
     JsonAndModel updateTeam(@RequestParam Map<String, Object> param,
-                                   @RequestBody CompetitionTeamInfo teamInfo);
+                            @RequestBody CompetitionTeamInfo teamInfo);
 
     /**
      * 登录，ac,submit 走势图
      */
     @GetMapping("/online.do")
     JsonAndModel queryOnlineStatistic(@RequestParam Map<String, Object> param);
+
+    /**
+     * 导出比赛团队信息
+     */
+    @GetMapping("/competition/export.do")
+    Response downloadTeamMessage(@RequestParam Map<String, Object> param);
 }
