@@ -4,10 +4,8 @@ import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.ProblemCenterService;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.context.Context;
-import com.kelab.info.problemcenter.info.ProblemInfo;
-import com.kelab.info.problemcenter.info.ProblemSubmitRecordInfo;
-import com.kelab.info.problemcenter.info.ProblemTagsInfo;
-import com.kelab.info.problemcenter.info.ProblemUserMarkInfo;
+import com.kelab.info.problemcenter.info.*;
+import com.kelab.info.problemcenter.query.ProblemNoteQuery;
 import com.kelab.info.problemcenter.query.ProblemQuery;
 import com.kelab.info.problemcenter.query.ProblemSubmitRecordQuery;
 import com.kelab.info.problemcenter.query.ProblemTagsQuery;
@@ -38,10 +36,8 @@ public class ProblemCenterController extends BaseController {
 
     @ApiOperation(value = "获取题目收藏集")
     @GetMapping("/user/problem/collect.do")
-    public JsonAndModel collect(Integer userId) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("userId", userId);
-        return problemCenterService.collect(buildParam(param));
+    public JsonAndModel collect() {
+        return problemCenterService.collect(buildParam());
     }
 
     @ApiOperation(value = "添加或者取消收藏")
@@ -155,6 +151,32 @@ public class ProblemCenterController extends BaseController {
         Map<String, Object> param = new HashMap<>();
         param.put("userId", userId);
         return problemCenterService.queryStatic(buildParam(param));
+    }
+
+    @ApiOperation(value = "分页查询笔记")
+    @GetMapping("/problem/note.do")
+    public JsonAndModel queryPage(ProblemNoteQuery query) {
+        return problemCenterService.queryNotePage(buildParam(query));
+    }
+
+    @ApiOperation(value = "添加笔记，如果有则更新")
+    @PostMapping("/problem/note.do")
+    public JsonAndModel save(@RequestBody ProblemNoteInfo record) {
+        return problemCenterService.save(buildParam(), record);
+    }
+
+    @ApiOperation(value = "修改笔记")
+    @PutMapping("/problem/note.do")
+    public JsonAndModel update(@RequestBody ProblemNoteInfo record) {
+        return problemCenterService.update(buildParam(), record);
+    }
+
+    @ApiOperation(value = "删除笔记")
+    @DeleteMapping("/problem/note.do")
+    public JsonAndModel deleteNotes(String ids) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("ids", ids);
+        return problemCenterService.deleteNotes(buildParam(param));
     }
 
 }

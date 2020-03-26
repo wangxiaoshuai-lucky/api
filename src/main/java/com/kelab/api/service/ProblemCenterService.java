@@ -4,13 +4,11 @@ import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.context.Context;
-import com.kelab.info.problemcenter.info.ProblemInfo;
-import com.kelab.info.problemcenter.info.ProblemSubmitRecordInfo;
-import com.kelab.info.problemcenter.info.ProblemTagsInfo;
-import com.kelab.info.problemcenter.info.ProblemUserMarkInfo;
+import com.kelab.info.problemcenter.info.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "service-problemcenter")
@@ -137,4 +135,30 @@ public interface ProblemCenterService {
      */
     @GetMapping("/submit/static.do")
     JsonAndModel queryStatic(@RequestParam Map<String, Object> param);
+
+    /**
+     * 分页查询笔记
+     */
+    @GetMapping("/problem/note.do")
+    JsonAndModel queryNotePage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 添加笔记
+     */
+    @PostMapping("/problem/note.do")
+    JsonAndModel save(@RequestParam Map<String, Object> param,
+                      @RequestBody ProblemNoteInfo record);
+
+    /**
+     * 修改笔记
+     */
+    @PutMapping("/problem/note.do")
+    JsonAndModel update(@RequestParam Map<String, Object> param,
+                               @RequestBody ProblemNoteInfo record);
+
+    /**
+     * 删除笔记
+     */
+    @DeleteMapping("/problem/note.do")
+    JsonAndModel deleteNotes(@RequestParam Map<String, Object> param);
 }
