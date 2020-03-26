@@ -143,4 +143,10 @@ public class ProblemCenterController extends BaseController {
         return problemCenterService.querySubmitDetail(buildParam(param));
     }
 
+    @ApiOperation(value = "查询里程碑")
+    @GetMapping("/user/submit/milestone.do")
+    public JsonAndModel queryMilestone() {
+        return problemCenterService.queryMilestone(buildParam());
+    }
+
 }
