@@ -177,4 +177,30 @@ public class ProblemCenterController extends BaseController {
         return problemCenterService.deleteNotes(buildParam(param));
     }
 
+    @ApiOperation(value = "查询段位")
+    @GetMapping("/level.do")
+    public JsonAndModel queryAllLevel() {
+        return problemCenterService.queryAllLevel(buildParam());
+    }
+
+    @ApiOperation(value = "添加段位")
+    @PostMapping("/level.do")
+    public JsonAndModel saveLevel(@RequestBody LevelInfo record) {
+        return problemCenterService.saveLevel(buildParam(), record);
+    }
+
+    @ApiOperation(value = "修改段位")
+    @PutMapping("/level.do")
+    public JsonAndModel updateLevel(@RequestBody LevelInfo record) {
+        return problemCenterService.updateLevel(buildParam(), record);
+    }
+
+    @ApiOperation(value = "删除段位")
+    @DeleteMapping("/level.do")
+    public JsonAndModel deleteLevel(String ids) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("ids", ids);
+        return problemCenterService.deleteLevel(buildParam(param));
+    }
+
 }

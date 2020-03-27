@@ -1,8 +1,6 @@
 package com.kelab.api.service;
 
-import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.*;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -154,11 +152,37 @@ public interface ProblemCenterService {
      */
     @PutMapping("/problem/note.do")
     JsonAndModel update(@RequestParam Map<String, Object> param,
-                               @RequestBody ProblemNoteInfo record);
+                        @RequestBody ProblemNoteInfo record);
 
     /**
      * 删除笔记
      */
     @DeleteMapping("/problem/note.do")
     JsonAndModel deleteNotes(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询段位
+     */
+    @GetMapping("/level.do")
+    JsonAndModel queryAllLevel(@RequestParam Map<String, Object> param);
+
+    /**
+     * 添加段位
+     */
+    @PostMapping("/level.do")
+    JsonAndModel saveLevel(@RequestParam Map<String, Object> param,
+                           @RequestBody LevelInfo record);
+
+    /**
+     * 修改段位
+     */
+    @PutMapping("/level.do")
+    JsonAndModel updateLevel(@RequestParam Map<String, Object> param,
+                             @RequestBody LevelInfo record);
+
+    /**
+     * 删除段位
+     */
+    @DeleteMapping("/level.do")
+    JsonAndModel deleteLevel(@RequestParam Map<String, Object> param);
 }
