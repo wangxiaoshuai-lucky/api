@@ -186,10 +186,16 @@ public interface ProblemCenterService {
     JsonAndModel deleteLevel(@RequestParam Map<String, Object> param);
 
     /**
-     * 查看某个段位的题目
+     * 查看某个段位的题目-管理员端
      */
     @GetMapping("/queryProblems.do")
     JsonAndModel queryProblems(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询每个小段位的题目列表 用户端
+     */
+    @GetMapping("/levelProblem.do")
+    JsonAndModel queryLevelProblems(@RequestParam Map<String, Object> param);
 
     /**
      * 插入段位题目

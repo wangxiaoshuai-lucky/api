@@ -1,8 +1,11 @@
 package com.kelab.api.controller;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.ProblemCenterService;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
+import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.*;
 import com.kelab.info.problemcenter.query.ProblemNoteQuery;
 import com.kelab.info.problemcenter.query.ProblemQuery;
@@ -186,10 +189,16 @@ public class ProblemCenterController extends BaseController {
         return problemCenterService.deleteLevel(buildParam().param("ids", ids));
     }
 
-    @ApiOperation(value = "查看某个段位的题目")
+    @ApiOperation(value = "查看某个段位的题目-管理员端")
     @GetMapping("/queryProblems.do")
     public JsonAndModel queryProblems(Integer levelId) {
         return problemCenterService.queryProblems(buildParam().param("levelId", levelId));
+    }
+
+    @ApiOperation(value = "查询每个小段位的题目列表-用户端")
+    @GetMapping("/levelProblem.do")
+    public JsonAndModel queryLevelProblems(Integer levelId) {
+        return problemCenterService.queryLevelProblems(buildParam().param("levelId", levelId));
     }
 
     @ApiOperation(value = "插入段位题目")
