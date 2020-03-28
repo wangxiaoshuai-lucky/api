@@ -1,13 +1,12 @@
 package com.kelab.api.service;
 
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.context.Context;
 import com.kelab.info.problemcenter.info.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @FeignClient(name = "service-problemcenter")
 @RequestMapping("/problemcenter")
@@ -185,4 +184,17 @@ public interface ProblemCenterService {
      */
     @DeleteMapping("/level.do")
     JsonAndModel deleteLevel(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查看某个段位的题目
+     */
+    @GetMapping("/queryProblems.do")
+    JsonAndModel queryProblems(@RequestParam Map<String, Object> param);
+
+    /**
+     * 插入段位题目
+     */
+    @PostMapping("/levelProblem.do")
+    JsonAndModel insertProblem(@RequestParam Map<String, Object> param,
+                               @RequestBody Set<LevelProblemInfo> records);
 }

@@ -21,8 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RestController
@@ -38,10 +36,9 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "获取验证码")
     @GetMapping("/pic.do")
     public JsonAndModel verifyPic(Integer w, Integer h) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("w", w);
-        param.put("h", h);
-        return userCenterService.verifyPic(buildParam(param));
+        return userCenterService.verifyPic(buildParam()
+                .param("w", w)
+                .param("h", h));
     }
 
     @ApiOperation(value = "注册用户")
@@ -53,12 +50,11 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "用户登录")
     @GetMapping("/user/signin.do")
     public JsonAndModel login(String username, String password, String verifyCode, String uuid) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("password", password);
-        param.put("username", username);
-        param.put("verifyCode", verifyCode);
-        param.put("uuid", uuid);
-        return userCenterService.login(buildParam(param));
+        return userCenterService.login(buildParam()
+                .param("password", password)
+                .param("username", username)
+                .param("verifyCode", verifyCode)
+                .param("uuid", uuid));
     }
 
     @ApiOperation(value = "查询所有用户个数")
@@ -70,11 +66,10 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "忘记密码发邮件")
     @GetMapping("/user/resetPasswd.do")
     public JsonAndModel resetPwd(String username, String verifyCode, String uuid) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("username", username);
-        param.put("verifyCode", verifyCode);
-        param.put("uuid", uuid);
-        return userCenterService.resetPwdEmail(buildParam(param));
+        return userCenterService.resetPwdEmail(buildParam()
+                .param("username", username)
+                .param("verifyCode", verifyCode)
+                .param("uuid", uuid));
     }
 
     @ApiOperation(value = "重置密码")
@@ -86,9 +81,7 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "日 周 月榜单查询")
     @GetMapping("/user/submit/statistic.do")
     public JsonAndModel submitStatistic(PageQuery query, Integer timeType) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("timeType", timeType);
-        return userCenterService.submitStatistic(buildParam(query, param));
+        return userCenterService.submitStatistic(buildParam(query).param("timeType", timeType));
     }
 
     @ApiOperation(value = "查询用户信息")
@@ -106,9 +99,7 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/user.do")
     public JsonAndModel delete(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return userCenterService.delete(buildParam(param));
+        return userCenterService.delete(buildParam().param("ids", ids));
     }
 
     @ApiOperation(value = "获取在线用户")
@@ -162,9 +153,7 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "删除滚动图片")
     @DeleteMapping("/scrollPicture.do")
     public JsonAndModel deleteScrollPicture(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return userCenterService.deleteScrollPicture(buildParam(param));
+        return userCenterService.deleteScrollPicture(buildParam().param("ids", ids));
     }
 
     @ApiOperation(value = "查询新闻")
@@ -188,17 +177,13 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "删除新闻")
     @DeleteMapping("/news.do")
     public JsonAndModel deleteNews(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return userCenterService.deleteNews(buildParam(param));
+        return userCenterService.deleteNews(buildParam().param("ids", ids));
     }
 
     @ApiOperation(value = "访问量+1")
     @PutMapping("/news/viewnum.do")
     public JsonAndModel updateNewsViewNum(Integer id) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("id", id);
-        return userCenterService.updateNewsViewNum(buildParam(param));
+        return userCenterService.updateNewsViewNum(buildParam().param("id", id));
     }
 
     @ApiOperation(value = "查询通知")
@@ -222,9 +207,7 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "删除通知")
     @DeleteMapping("/newsroll.do")
     public JsonAndModel deleteNewsRoll(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return userCenterService.deleteNewsRoll(buildParam(param));
+        return userCenterService.deleteNewsRoll(buildParam().param("ids", ids));
     }
 
     @ApiOperation(value = "查询关于")
@@ -248,9 +231,7 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "删除关于")
     @DeleteMapping("/about.do")
     public JsonAndModel deleteAbout(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return userCenterService.deleteAbout(buildParam(param));
+        return userCenterService.deleteAbout(buildParam().param("ids", ids));
     }
 
     @ApiOperation(value = "更新关于的顺序")
@@ -280,9 +261,7 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "删除竞赛")
     @DeleteMapping("/competition.do")
     public JsonAndModel deleteCompetition(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return userCenterService.deleteCompetition(buildParam(param));
+        return userCenterService.deleteCompetition(buildParam().param("ids", ids));
     }
 
     @ApiOperation(value = "查询竞赛队伍")
@@ -306,9 +285,7 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "登录，ac,submit 走势图")
     @GetMapping("/online.do")
     public JsonAndModel queryOnlineStatistic(Integer type) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("type", type);
-        return userCenterService.queryOnlineStatistic(buildParam(param));
+        return userCenterService.queryOnlineStatistic(buildParam().param("type", type));
     }
 
     @ApiOperation(value = "导出比赛团队信息")
@@ -318,9 +295,7 @@ public class UserCenterController extends BaseController {
         InputStream inputStream = null;
         try {
             // feign文件下载
-            Map<String, Object> param = new HashMap<>();
-            param.put("competitionId", competitionId);
-            Response response = userCenterService.downloadTeamMessage(buildParam(param));
+            Response response = userCenterService.downloadTeamMessage(buildParam().param("competitionId", competitionId));
             Response.Body body = response.body();
             inputStream = body.asInputStream();
             byte[] b = new byte[inputStream.available()];

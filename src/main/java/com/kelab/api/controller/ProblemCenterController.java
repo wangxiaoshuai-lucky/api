@@ -12,8 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
 
 @RestController
 @Api(value = "题目相关Controller", tags = "problem-center")
@@ -28,9 +27,7 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "获取ac或者挑战情况")
     @GetMapping("/user/problem/challenging.do")
     public JsonAndModel queryAcAndChallenging(Integer userId) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("userId", userId);
-        return problemCenterService.queryAcAndChallenging(buildParam(param));
+        return problemCenterService.queryAcAndChallenging(buildParam().param("userId", userId));
     }
 
     @ApiOperation(value = "获取题目收藏集")
@@ -60,9 +57,7 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "删除题目")
     @DeleteMapping("/problem.do")
     public JsonAndModel delete(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return problemCenterService.delete(buildParam(param));
+        return problemCenterService.delete(buildParam().param("ids", ids));
     }
 
     @ApiOperation(value = "修改题目")
@@ -80,9 +75,7 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "查询来源列表")
     @GetMapping("/problem/source.do")
     public JsonAndModel querySource(Integer limit) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("limit", limit);
-        return problemCenterService.querySource(buildParam(param));
+        return problemCenterService.querySource(buildParam().param("limit", limit));
     }
 
     @ApiOperation(value = "获取标签信息")
@@ -106,9 +99,7 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "删除标签信息")
     @DeleteMapping("/tags.do")
     public JsonAndModel deleteTags(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return problemCenterService.deleteTags(buildParam(param));
+        return problemCenterService.deleteTags(buildParam().param("ids", ids));
     }
 
     @ApiOperation(value = "查询提交记录")
@@ -132,9 +123,7 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "查询提交细节：源码和错误信息")
     @GetMapping("/submit/detail.do")
     public JsonAndModel querySubmitDetail(Integer submitId) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("submitId", submitId);
-        return problemCenterService.querySubmitDetail(buildParam(param));
+        return problemCenterService.querySubmitDetail(buildParam().param("submitId", submitId));
     }
 
     @ApiOperation(value = "查询里程碑")
@@ -146,9 +135,7 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "一周内提交次数")
     @GetMapping("/submit/static.do")
     public JsonAndModel queryStatic(Integer userId) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("userId", userId);
-        return problemCenterService.queryStatic(buildParam(param));
+        return problemCenterService.queryStatic(buildParam().param("userId", userId));
     }
 
     @ApiOperation(value = "分页查询笔记")
@@ -172,9 +159,7 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "删除笔记")
     @DeleteMapping("/problem/note.do")
     public JsonAndModel deleteNotes(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return problemCenterService.deleteNotes(buildParam(param));
+        return problemCenterService.deleteNotes(buildParam().param("ids", ids));
     }
 
     @ApiOperation(value = "查询段位")
@@ -198,9 +183,19 @@ public class ProblemCenterController extends BaseController {
     @ApiOperation(value = "删除段位")
     @DeleteMapping("/level.do")
     public JsonAndModel deleteLevel(String ids) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("ids", ids);
-        return problemCenterService.deleteLevel(buildParam(param));
+        return problemCenterService.deleteLevel(buildParam().param("ids", ids));
+    }
+
+    @ApiOperation(value = "查看某个段位的题目")
+    @GetMapping("/queryProblems.do")
+    public JsonAndModel queryProblems(Integer levelId) {
+        return problemCenterService.queryProblems(buildParam().param("levelId", levelId));
+    }
+
+    @ApiOperation(value = "插入段位题目")
+    @PostMapping("/levelProblem.do")
+    public JsonAndModel insertProblem(@RequestBody Set<LevelProblemInfo> records) {
+        return problemCenterService.insertProblem(buildParam(), records);
     }
 
 }
