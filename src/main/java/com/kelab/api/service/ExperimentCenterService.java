@@ -88,4 +88,10 @@ public interface ExperimentCenterService {
      */
     @DeleteMapping("/experiment/class/contest.do")
     JsonAndModel deleteContest(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询实验题目
+     */
+    @GetMapping("/experiment/contest/problems.do")
+    JsonAndModel queryByContestIdPage(@RequestParam Map<String, Object> param);
 }

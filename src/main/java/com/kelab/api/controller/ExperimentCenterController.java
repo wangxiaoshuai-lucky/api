@@ -7,6 +7,7 @@ import com.kelab.info.experiment.info.ExperimentClassInfo;
 import com.kelab.info.experiment.info.ExperimentContestInfo;
 import com.kelab.info.experiment.info.ExperimentStudentInfo;
 import com.kelab.info.experiment.query.ExperimentClassQuery;
+import com.kelab.info.experiment.query.ExperimentProblemQuery;
 import com.kelab.info.experiment.query.ExperimentStudentQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -92,5 +93,11 @@ public class ExperimentCenterController extends BaseController {
     @DeleteMapping("/experiment/class/contest.do")
     public JsonAndModel deleteContest(String ids) {
         return experimentCenterService.deleteContest(buildParam().param("ids", ids));
+    }
+
+    @ApiOperation(value = "查询实验题目")
+    @GetMapping("/experiment/contest/problems.do")
+    public JsonAndModel queryByContestIdPage(ExperimentProblemQuery query) {
+        return experimentCenterService.queryByContestIdPage(buildParam(query));
     }
 }
