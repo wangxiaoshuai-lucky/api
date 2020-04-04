@@ -28,6 +28,12 @@ public class ExperimentCenterController extends BaseController {
         return experimentCenterService.queryPage(buildParam(query));
     }
 
+    @ApiOperation(value = "查询所有班级，学生端查看")
+    @GetMapping("/experiment/classForUser.do")
+    public JsonAndModel queryPageForUser(ExperimentStudentQuery query) {
+        return experimentCenterService.queryPageForUser(buildParam(query));
+    }
+
     @PostMapping("/experiment/class.do")
     @ApiOperation(value = "开设班级")
     public JsonAndModel createExperimentClass(@RequestBody ExperimentClassInfo record) {
@@ -68,6 +74,12 @@ public class ExperimentCenterController extends BaseController {
     @GetMapping("/experiment/class/contest.do")
     public JsonAndModel queryByClassId(Integer classId) {
         return experimentCenterService.queryByClassId(buildParam().param("classId", classId));
+    }
+
+    @ApiOperation(value = "创建实验")
+    @PostMapping("/experiment/class/contest.do")
+    public JsonAndModel saveContest(@RequestBody ExperimentContestInfo record) {
+        return experimentCenterService.saveContest(buildParam(), record);
     }
 
     @ApiOperation(value = "更新实验")

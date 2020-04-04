@@ -19,6 +19,12 @@ public interface ExperimentCenterService {
     JsonAndModel queryPage(@RequestParam Map<String, Object> param);
 
     /**
+     * 查询所有班级，学生端查看
+     */
+    @GetMapping("/experiment/classForUser.do")
+    JsonAndModel queryPageForUser(@RequestParam Map<String, Object> param);
+
+    /**
      * 开设班级
      */
     @PostMapping("/experiment/class.do")
@@ -62,6 +68,13 @@ public interface ExperimentCenterService {
      */
     @GetMapping("/experiment/class/contest.do")
     JsonAndModel queryByClassId(@RequestParam Map<String, Object> param);
+
+    /**
+     * 创建实验
+     */
+    @PostMapping("/experiment/class/contest.do")
+    JsonAndModel saveContest(@RequestParam Map<String, Object> param,
+                             @RequestBody ExperimentContestInfo record);
 
     /**
      * 更新实验
