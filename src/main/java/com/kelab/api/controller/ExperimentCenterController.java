@@ -4,6 +4,7 @@ import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.ExperimentCenterService;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.experiment.info.ExperimentClassInfo;
+import com.kelab.info.experiment.info.ExperimentContestInfo;
 import com.kelab.info.experiment.info.ExperimentStudentInfo;
 import com.kelab.info.experiment.query.ExperimentClassQuery;
 import com.kelab.info.experiment.query.ExperimentStudentQuery;
@@ -61,5 +62,23 @@ public class ExperimentCenterController extends BaseController {
     @PutMapping("/experiment/class/student.do")
     public JsonAndModel reviewStudentApply(@RequestBody ExperimentStudentInfo record) {
         return experimentCenterService.reviewStudentApply(buildParam(), record);
+    }
+
+    @ApiOperation(value = "查询所有的实验")
+    @GetMapping("/experiment/class/contest.do")
+    public JsonAndModel queryByClassId(Integer classId) {
+        return experimentCenterService.queryByClassId(buildParam().param("classId", classId));
+    }
+
+    @ApiOperation(value = "更新实验")
+    @PutMapping("/experiment/class/contest.do")
+    public JsonAndModel updateContest(@RequestBody ExperimentContestInfo record) {
+        return experimentCenterService.updateContest(buildParam(), record);
+    }
+
+    @ApiOperation(value = "删除实验")
+    @DeleteMapping("/experiment/class/contest.do")
+    public JsonAndModel deleteContest(String ids) {
+        return experimentCenterService.deleteContest(buildParam().param("ids", ids));
     }
 }
