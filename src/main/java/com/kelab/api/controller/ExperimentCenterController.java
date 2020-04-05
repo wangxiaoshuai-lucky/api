@@ -5,8 +5,9 @@ import com.kelab.api.service.ExperimentCenterService;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.experiment.info.ExperimentClassInfo;
 import com.kelab.info.experiment.info.ExperimentContestInfo;
-import com.kelab.info.experiment.info.ExperimentStudentInfo;
+import com.kelab.info.experiment.info.ExperimentReviewStudentInfo;
 import com.kelab.info.experiment.query.ExperimentClassQuery;
+import com.kelab.info.experiment.query.ExperimentContestQuery;
 import com.kelab.info.experiment.query.ExperimentProblemQuery;
 import com.kelab.info.experiment.query.ExperimentStudentQuery;
 import io.swagger.annotations.Api;
@@ -67,14 +68,14 @@ public class ExperimentCenterController extends BaseController {
 
     @ApiOperation(value = "教师审核学生")
     @PutMapping("/experiment/class/student.do")
-    public JsonAndModel reviewStudentApply(@RequestBody ExperimentStudentInfo record) {
+    public JsonAndModel reviewStudentApply(@RequestBody ExperimentReviewStudentInfo record) {
         return experimentCenterService.reviewStudentApply(buildParam(), record);
     }
 
-    @ApiOperation(value = "查询所有的实验")
+    @ApiOperation(value = "查询实验")
     @GetMapping("/experiment/class/contest.do")
-    public JsonAndModel queryByClassId(Integer classId) {
-        return experimentCenterService.queryByClassId(buildParam().param("classId", classId));
+    public JsonAndModel queryByClassId(ExperimentContestQuery query) {
+        return experimentCenterService.queryContest(buildParam(query));
     }
 
     @ApiOperation(value = "创建实验")
@@ -99,5 +100,11 @@ public class ExperimentCenterController extends BaseController {
     @GetMapping("/experiment/contest/problems.do")
     public JsonAndModel queryByContestIdPage(ExperimentProblemQuery query) {
         return experimentCenterService.queryByContestIdPage(buildParam(query));
+    }
+
+    @ApiOperation(value = "查询实验排行")
+    @GetMapping("/experiment/contest/rank.do")
+    public JsonAndModel queryRankByContestId(Integer contestId) {
+        return experimentCenterService.queryRankByContestId(buildParam().param("contestId", contestId));
     }
 }

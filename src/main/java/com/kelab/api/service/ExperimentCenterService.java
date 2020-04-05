@@ -3,7 +3,7 @@ package com.kelab.api.service;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.experiment.info.ExperimentClassInfo;
 import com.kelab.info.experiment.info.ExperimentContestInfo;
-import com.kelab.info.experiment.info.ExperimentStudentInfo;
+import com.kelab.info.experiment.info.ExperimentReviewStudentInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,13 +61,13 @@ public interface ExperimentCenterService {
      */
     @PutMapping("/experiment/class/student.do")
     JsonAndModel reviewStudentApply(@RequestParam Map<String, Object> param,
-                                    @RequestBody ExperimentStudentInfo record);
+                                    @RequestBody ExperimentReviewStudentInfo record);
 
     /**
      * 查询所有的实验
      */
     @GetMapping("/experiment/class/contest.do")
-    JsonAndModel queryByClassId(@RequestParam Map<String, Object> param);
+    JsonAndModel queryContest(@RequestParam Map<String, Object> param);
 
     /**
      * 创建实验
@@ -94,4 +94,10 @@ public interface ExperimentCenterService {
      */
     @GetMapping("/experiment/contest/problems.do")
     JsonAndModel queryByContestIdPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询实验排行
+     */
+    @GetMapping("/experiment/contest/rank.do")
+    JsonAndModel queryRankByContestId(@RequestParam Map<String, Object> param);
 }
