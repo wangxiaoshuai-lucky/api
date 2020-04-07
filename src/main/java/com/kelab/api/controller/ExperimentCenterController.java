@@ -4,10 +4,7 @@ import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.ExperimentCenterService;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.experiment.info.*;
-import com.kelab.info.experiment.query.ExperimentClassQuery;
-import com.kelab.info.experiment.query.ExperimentContestQuery;
-import com.kelab.info.experiment.query.ExperimentProblemQuery;
-import com.kelab.info.experiment.query.ExperimentStudentQuery;
+import com.kelab.info.experiment.query.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -140,5 +137,29 @@ public class ExperimentCenterController extends BaseController {
     @PutMapping("/experiment/class/changeGroup.do")
     public JsonAndModel changeStudentGroup(@RequestBody ExperimentChangeGroupInfo record) {
         return experimentCenterService.changeStudentGroup(buildParam(), record);
+    }
+
+    @ApiOperation(value = "查询作业列表")
+    @GetMapping("/experiment/class/homework.do")
+    public JsonAndModel queryHomeworkPage(ExperimentHomeworkQuery query) {
+        return experimentCenterService.queryHomeworkPage(buildParam(query));
+    }
+
+    @ApiOperation(value = "新建作业")
+    @PostMapping("/experiment/class/homework.do")
+    public JsonAndModel createHomework(@RequestBody ExperimentHomeworkInfo record) {
+        return experimentCenterService.createHomework(buildParam(), record);
+    }
+
+    @ApiOperation(value = "修改作业")
+    @PutMapping("/experiment/class/homework.do")
+    public JsonAndModel updateHomework(@RequestBody ExperimentHomeworkInfo record) {
+        return experimentCenterService.updateHomework(buildParam(), record);
+    }
+
+    @ApiOperation(value = "删除作业")
+    @DeleteMapping("/experiment/class/homework.do")
+    public JsonAndModel deleteHomework(String ids) {
+        return experimentCenterService.deleteHomework(buildParam().param("ids", ids));
     }
 }

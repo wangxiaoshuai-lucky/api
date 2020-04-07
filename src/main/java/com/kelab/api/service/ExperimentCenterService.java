@@ -137,4 +137,28 @@ public interface ExperimentCenterService {
     @PutMapping("/experiment/class/changeGroup.do")
     JsonAndModel changeStudentGroup(@RequestParam Map<String, Object> param,
                                     @RequestBody ExperimentChangeGroupInfo record);
+
+    /**
+     * 查询作业列表
+     */
+    @GetMapping("/experiment/class/homework.do")
+    JsonAndModel queryHomeworkPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 新建作业
+     */
+    @PostMapping("/experiment/class/homework.do")
+    JsonAndModel createHomework(@RequestParam Map<String, Object> param, @RequestBody ExperimentHomeworkInfo record);
+
+    /**
+     * 修改
+     */
+    @PutMapping("/experiment/class/homework.do")
+    JsonAndModel updateHomework(@RequestParam Map<String, Object> param, @RequestBody ExperimentHomeworkInfo record);
+
+    /**
+     * 删除作业
+     */
+    @DeleteMapping("/experiment/class/homework.do")
+    JsonAndModel deleteHomework(@RequestParam Map<String, Object> param);
 }
