@@ -3,9 +3,7 @@ package com.kelab.api.controller;
 import com.kelab.api.controller.base.BaseController;
 import com.kelab.api.service.ExperimentCenterService;
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.experiment.info.ExperimentClassInfo;
-import com.kelab.info.experiment.info.ExperimentContestInfo;
-import com.kelab.info.experiment.info.ExperimentReviewStudentInfo;
+import com.kelab.info.experiment.info.*;
 import com.kelab.info.experiment.query.ExperimentClassQuery;
 import com.kelab.info.experiment.query.ExperimentContestQuery;
 import com.kelab.info.experiment.query.ExperimentProblemQuery;
@@ -60,6 +58,12 @@ public class ExperimentCenterController extends BaseController {
         return experimentCenterService.queryStudentPage(buildParam(query));
     }
 
+    @ApiOperation(value = "查询班级未分组学生")
+    @GetMapping("/experiment/class/noGroupStudents.do")
+    public JsonAndModel queryAllStudentWithoutGroup(Integer classId) {
+        return experimentCenterService.queryAllStudentWithoutGroup(buildParam().param("classId", classId));
+    }
+
     @ApiOperation(value = "申请加班")
     @PostMapping("/experiment/class/student.do")
     public JsonAndModel applyClass(String classCode) {
@@ -106,5 +110,35 @@ public class ExperimentCenterController extends BaseController {
     @GetMapping("/experiment/contest/rank.do")
     public JsonAndModel queryRankByContestId(Integer contestId) {
         return experimentCenterService.queryRankByContestId(buildParam().param("contestId", contestId));
+    }
+
+    @ApiOperation(value = "查询班级所有的分组")
+    @GetMapping("/experiment/class/group.do")
+    public JsonAndModel queryAllGroup(Integer classId) {
+        return experimentCenterService.queryAllGroup(buildParam().param("classId", classId));
+    }
+
+    @ApiOperation(value = "创建分组")
+    @PostMapping("/experiment/class/group.do")
+    public JsonAndModel createGroup(@RequestBody ExperimentGroupInfo record) {
+        return experimentCenterService.createGroup(buildParam(), record);
+    }
+
+    @ApiOperation(value = "修改分组名字")
+    @PutMapping("/experiment/class/group.do")
+    public JsonAndModel updateGroup(@RequestBody ExperimentGroupInfo record) {
+        return experimentCenterService.updateGroup(buildParam(), record);
+    }
+
+    @ApiOperation(value = "删除分组")
+    @DeleteMapping("/experiment/class/group.do")
+    public JsonAndModel deleteGroup(String ids) {
+        return experimentCenterService.deleteGroup(buildParam().param("ids", ids));
+    }
+
+    @ApiOperation(value = "切换分组")
+    @PutMapping("/experiment/class/changeGroup.do")
+    public JsonAndModel changeStudentGroup(@RequestBody ExperimentChangeGroupInfo record) {
+        return experimentCenterService.changeStudentGroup(buildParam(), record);
     }
 }

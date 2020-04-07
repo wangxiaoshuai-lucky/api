@@ -1,9 +1,7 @@
 package com.kelab.api.service;
 
 import com.kelab.info.base.JsonAndModel;
-import com.kelab.info.experiment.info.ExperimentClassInfo;
-import com.kelab.info.experiment.info.ExperimentContestInfo;
-import com.kelab.info.experiment.info.ExperimentReviewStudentInfo;
+import com.kelab.info.experiment.info.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +47,12 @@ public interface ExperimentCenterService {
      */
     @GetMapping("/experiment/class/student.do")
     JsonAndModel queryStudentPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询班级未分组学生
+     */
+    @GetMapping("/experiment/class/noGroupStudents.do")
+    JsonAndModel queryAllStudentWithoutGroup(@RequestParam Map<String, Object> param);
 
     /**
      * 申请加班
@@ -100,4 +104,37 @@ public interface ExperimentCenterService {
      */
     @GetMapping("/experiment/contest/rank.do")
     JsonAndModel queryRankByContestId(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询班级所有的分组
+     */
+    @GetMapping("/experiment/class/group.do")
+    JsonAndModel queryAllGroup(@RequestParam Map<String, Object> param);
+
+    /**
+     * 创建分组
+     */
+    @PostMapping("/experiment/class/group.do")
+    JsonAndModel createGroup(@RequestParam Map<String, Object> param,
+                             @RequestBody ExperimentGroupInfo record);
+
+    /**
+     * 修改分组名字
+     */
+    @PutMapping("/experiment/class/group.do")
+    JsonAndModel updateGroup(@RequestParam Map<String, Object> param,
+                             @RequestBody ExperimentGroupInfo record);
+
+    /**
+     * 删除分组
+     */
+    @DeleteMapping("/experiment/class/group.do")
+    JsonAndModel deleteGroup(@RequestParam Map<String, Object> param);
+
+    /**
+     * 切换分组
+     */
+    @PutMapping("/experiment/class/changeGroup.do")
+    JsonAndModel changeStudentGroup(@RequestParam Map<String, Object> param,
+                                    @RequestBody ExperimentChangeGroupInfo record);
 }
