@@ -162,4 +162,10 @@ public class ExperimentCenterController extends BaseController {
     public JsonAndModel deleteHomework(String ids) {
         return experimentCenterService.deleteHomework(buildParam().param("ids", ids));
     }
+
+    @ApiOperation(value = "查询学生提交的作业列表")
+    @GetMapping("/experiment/class/studentHomework.do")
+    public JsonAndModel queryStudentHomeworkPage(ExperimentStudentHomeworkQuery query) {
+        return experimentCenterService.queryStudentHomeworkPage(buildParam(query));
+    }
 }

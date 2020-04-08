@@ -1,7 +1,11 @@
 package com.kelab.api.service;
 
+import cn.wzy.verifyUtils.annotation.Verify;
 import com.kelab.info.base.JsonAndModel;
+import com.kelab.info.base.constant.StatusMsgConstant;
+import com.kelab.info.context.Context;
 import com.kelab.info.experiment.info.*;
+import com.kelab.info.experiment.query.ExperimentStudentHomeworkQuery;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -161,4 +165,10 @@ public interface ExperimentCenterService {
      */
     @DeleteMapping("/experiment/class/homework.do")
     JsonAndModel deleteHomework(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询学生提交的作业列表
+     */
+    @GetMapping("/experiment/class/studentHomework.do")
+    JsonAndModel queryStudentHomeworkPage(@RequestParam Map<String, Object> param);
 }
