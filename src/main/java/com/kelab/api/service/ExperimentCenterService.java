@@ -5,7 +5,7 @@ import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.base.constant.StatusMsgConstant;
 import com.kelab.info.context.Context;
 import com.kelab.info.experiment.info.*;
-import com.kelab.info.experiment.query.ExperimentStudentHomeworkQuery;
+import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -171,4 +171,24 @@ public interface ExperimentCenterService {
      */
     @GetMapping("/experiment/class/studentHomework.do")
     JsonAndModel queryStudentHomeworkPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 学生提交作业
+     */
+    @PostMapping("/experiment/class/studentHomework.do")
+    JsonAndModel submitHomework(@RequestParam Map<String, Object> param,
+                                @RequestBody ExperimentStudentHomeworkInfo record);
+
+    /**
+     * 教师批改作业
+     */
+    @PutMapping("/experiment/class/studentHomework.do")
+    JsonAndModel reviewHomework(@RequestParam Map<String, Object> param,
+                                @RequestBody ExperimentStudentHomeworkInfo record);
+
+    /**
+     * 教师下载课程成绩
+     */
+    @GetMapping("/experiment/class/score.do")
+    Response downloadClassScore(@RequestParam Map<String, Object> param);
 }

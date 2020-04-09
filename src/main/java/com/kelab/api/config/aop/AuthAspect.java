@@ -94,7 +94,7 @@ public class AuthAspect {
             if (throwable instanceof FeignException) {
                 String message = JSON.parseObject(((FeignException) throwable).contentUTF8(), ExceptionInfo.class).getMessage();
                 if (StringUtils.isNotBlank(message)) {
-                    throwable = new RuntimeException(throwable.getMessage() + ":::" + message);
+                    throwable = new RuntimeException(message);
                 }
             }
             // 保存堆栈信息
