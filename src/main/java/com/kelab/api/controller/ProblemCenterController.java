@@ -204,4 +204,30 @@ public class ProblemCenterController extends BaseController {
         return problemCenterService.insertProblem(buildParam(), records);
     }
 
+    @ApiOperation(value = "下载判题数据")
+    @GetMapping("/testdata/download.do")
+    public Object downloadTestData(Integer problemId, String key) {
+        return download(problemCenterService.downloadTestData(buildParam()
+                .param("problemId", problemId)
+                .param("key", key)));
+    }
+
+    @ApiOperation(value = "查询判题数据")
+    @GetMapping("/testdata/query.do")
+    public JsonAndModel queryByProblemId(Integer problemId) {
+        return problemCenterService.queryByProblemId(buildParam().param("problemId", problemId));
+    }
+
+    @ApiOperation(value = "更新判题数据")
+    @PutMapping("/testdata/update.do")
+    public JsonAndModel updateTestData(@RequestBody ProblemTestDataInfo record) {
+        return problemCenterService.updateTestData(buildParam(), record);
+    }
+
+    @ApiOperation(value = "删除判题数据")
+    @DeleteMapping("/testdata/delete.do")
+    public JsonAndModel deleteTestData(String ids) {
+        return problemCenterService.deleteTestData(buildParam().param("ids", ids));
+    }
+
 }

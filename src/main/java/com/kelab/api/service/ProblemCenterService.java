@@ -2,6 +2,7 @@ package com.kelab.api.service;
 
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.problemcenter.info.*;
+import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -203,4 +204,29 @@ public interface ProblemCenterService {
     @PostMapping("/levelProblem.do")
     JsonAndModel insertProblem(@RequestParam Map<String, Object> param,
                                @RequestBody Set<LevelProblemInfo> records);
+
+    /**
+     * 下载判题数据
+     */
+    @GetMapping("/testdata/download.do")
+    Response downloadTestData(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询判题数据
+     */
+    @GetMapping("/testdata/query.do")
+    JsonAndModel queryByProblemId(@RequestParam Map<String, Object> param);
+
+    /**
+     * 更新判题数据
+     */
+    @PutMapping("/testdata/update.do")
+    JsonAndModel updateTestData(@RequestParam Map<String, Object> param,
+                                @RequestBody ProblemTestDataInfo record);
+
+    /**
+     * 删除判题数据
+     */
+    @DeleteMapping("/testdata/delete.do")
+    JsonAndModel deleteTestData(@RequestParam Map<String, Object> param);
 }
