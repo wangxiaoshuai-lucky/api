@@ -26,10 +26,13 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Aspect
 @Component
@@ -101,6 +104,15 @@ public class AuthAspect {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             throwable.printStackTrace(pw);
+            // 如果参数中带有MultipartFile日志记录会有问题
+            List<Object> argsFilter = new ArrayList<>();
+            for (Object obj: args) {
+                if (obj instanceof MultipartFile) {
+                    argsFilter.add("file&size:" + ((MultipartFile) obj).getOriginalFilename() + "::" + ((MultipartFile) obj).getSize());
+                } else {
+                    argsFilter.add(obj);
+                }
+            }
             String errMsg = String.format("\n*************error occurred*************\n" +
                             "\tapi:%s\n" +
                             "\tdesc:%s\n" +
@@ -110,7 +122,7 @@ public class AuthAspect {
                             "\targs:%s\n" +
                             "\terr:%s\n" +
                             "*****************************************"
-                    , url, domain.getAuthDomain().getDesc(), context.getLogId(), userId, roleId, JSON.toJSONString(args), sw.toString());
+                    , url, domain.getAuthDomain().getDesc(), context.getLogId(), userId, roleId, JSON.toJSONString(argsFilter), sw.toString());
             redisCache.saveLog(CacheBizName.LOG, context.getLogId(), errMsg);
             LOGGER.error(errMsg);
             throw throwable;

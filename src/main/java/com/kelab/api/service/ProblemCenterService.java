@@ -4,7 +4,9 @@ import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.problemcenter.info.*;
 import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 import java.util.Set;
@@ -229,4 +231,11 @@ public interface ProblemCenterService {
      */
     @DeleteMapping("/testdata/delete.do")
     JsonAndModel deleteTestData(@RequestParam Map<String, Object> param);
+
+    /**
+     * 文件上传,返回下载连接
+     */
+    @PostMapping(value = "/testdata/upload.do", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    JsonAndModel uploadTestData(@RequestParam Map<String, Object> param,
+                                @RequestBody MultipartFile file);
 }

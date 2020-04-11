@@ -11,6 +11,7 @@ import com.kelab.info.problemcenter.query.ProblemTagsQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
@@ -228,6 +229,12 @@ public class ProblemCenterController extends BaseController {
     @DeleteMapping("/testdata/delete.do")
     public JsonAndModel deleteTestData(String ids) {
         return problemCenterService.deleteTestData(buildParam().param("ids", ids));
+    }
+
+    @ApiOperation(value = "上传测试数据")
+    @PostMapping(value = "/testdata/upload.do")
+    public JsonAndModel uploadTestData(Integer problemId, @RequestBody MultipartFile file) {
+        return problemCenterService.uploadTestData(buildParam().param("problemId", problemId), file);
     }
 
 }
