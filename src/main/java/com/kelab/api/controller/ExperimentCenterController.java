@@ -5,19 +5,9 @@ import com.kelab.api.service.ExperimentCenterService;
 import com.kelab.info.base.JsonAndModel;
 import com.kelab.info.experiment.info.*;
 import com.kelab.info.experiment.query.*;
-import feign.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
 
 @RestController
 @Api(value = "实验平台相关Controller", tags = "experiment-center")
@@ -194,31 +184,12 @@ public class ExperimentCenterController extends BaseController {
     @ApiOperation(value = "教师下载课程成绩")
     @GetMapping("/experiment/class/score.do")
     public Object downloadClassScore(Integer classId) {
-        ResponseEntity<byte[]> result = null;
-        InputStream inputStream = null;
-        try {
-            // feign文件下载
-            Response response = experimentCenterService.downloadClassScore(buildParam().param("classId", classId));
-            Response.Body body = response.body();
-            inputStream = body.asInputStream();
-            byte[] b = new byte[inputStream.available()];
-            inputStream.read(b);
-            HttpHeaders heads = new HttpHeaders();
-            Collection<String> strings = response.headers().get(HttpHeaders.CONTENT_DISPOSITION);
-            heads.add(HttpHeaders.CONTENT_DISPOSITION, StringUtils.join(strings, ";"));
-            heads.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-            result = new ResponseEntity<>(b, heads, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return result;
+        return download(experimentCenterService.downloadClassScore(buildParam().param("classId", classId)));
+    }
+
+    @ApiOperation(value = "教师下载课程代码")
+    @GetMapping("/experiment/class/source.do")
+    public Object downloadClassContestSource(Integer classId) {
+        return download(experimentCenterService.downloadClassContestSource(buildParam().param("classId", classId)));
     }
 }

@@ -7,20 +7,11 @@ import com.kelab.info.base.query.BaseQuery;
 import com.kelab.info.base.query.PageQuery;
 import com.kelab.info.usercenter.info.*;
 import com.kelab.info.usercenter.query.*;
-import feign.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
 
 
 @RestController
@@ -291,31 +282,6 @@ public class UserCenterController extends BaseController {
     @ApiOperation(value = "导出比赛团队信息")
     @GetMapping("/competition/export.do")
     public Object downloadTeamMessage(@RequestParam Integer competitionId) {
-        ResponseEntity<byte[]> result = null;
-        InputStream inputStream = null;
-        try {
-            // feign文件下载
-            Response response = userCenterService.downloadTeamMessage(buildParam().param("competitionId", competitionId));
-            Response.Body body = response.body();
-            inputStream = body.asInputStream();
-            byte[] b = new byte[inputStream.available()];
-            inputStream.read(b);
-            HttpHeaders heads = new HttpHeaders();
-            Collection<String> strings = response.headers().get(HttpHeaders.CONTENT_DISPOSITION);
-            heads.add(HttpHeaders.CONTENT_DISPOSITION, StringUtils.join(strings, ";"));
-            heads.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-            result = new ResponseEntity<>(b, heads, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return result;
+        return download(userCenterService.downloadTeamMessage(buildParam().param("competitionId", competitionId)));
     }
 }
