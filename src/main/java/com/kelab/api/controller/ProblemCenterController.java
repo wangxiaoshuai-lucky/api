@@ -8,6 +8,7 @@ import com.kelab.info.problemcenter.query.ProblemNoteQuery;
 import com.kelab.info.problemcenter.query.ProblemQuery;
 import com.kelab.info.problemcenter.query.ProblemSubmitRecordQuery;
 import com.kelab.info.problemcenter.query.ProblemTagsQuery;
+import com.kelab.info.problemcenter.vo.JudgeResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -235,6 +236,12 @@ public class ProblemCenterController extends BaseController {
     @PostMapping(value = "/testdata/upload.do")
     public JsonAndModel uploadTestData(Integer problemId, @RequestBody MultipartFile file) {
         return problemCenterService.uploadTestData(buildParam().param("problemId", problemId), file);
+    }
+
+    @PutMapping("/submit.do")
+    @ApiOperation(value = "判题回调接口")
+    public JsonAndModel judgeCallback(Integer id, String key, @RequestBody JudgeResult result) {
+        return problemCenterService.judgeCallback(buildParam().param("id", id).param("key", key), result);
     }
 
 }
