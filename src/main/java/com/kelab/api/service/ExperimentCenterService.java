@@ -194,4 +194,17 @@ public interface ExperimentCenterService {
      */
     @GetMapping("/experiment/class/source.do")
     Response downloadClassContestSource(@RequestParam Map<String, Object> param);
+
+    /**
+     * 查询讨论区
+     */
+    @GetMapping("/experiment/class/chat.do")
+    JsonAndModel queryChatPage(@RequestParam Map<String, Object> param);
+
+    /**
+     * 提交讨论
+     */
+    @PostMapping("/experiment/class/chat.do")
+    JsonAndModel createChat(@RequestParam Map<String, Object> param,
+                            @RequestBody ExperimentChatInfo record);
 }

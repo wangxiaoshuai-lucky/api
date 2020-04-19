@@ -192,4 +192,16 @@ public class ExperimentCenterController extends BaseController {
     public Object downloadClassContestSource(Integer classId) {
         return download(experimentCenterService.downloadClassContestSource(buildParam().param("classId", classId)));
     }
+
+    @GetMapping("/experiment/class/chat.do")
+    @ApiOperation(value = "查询讨论区")
+    public JsonAndModel queryChatPage(ExperimentChatQuery query) {
+        return experimentCenterService.queryChatPage(buildParam(query));
+    }
+
+    @PostMapping("/experiment/class/chat.do")
+    @ApiOperation(value = "提交讨论")
+    public JsonAndModel createChat(@RequestBody ExperimentChatInfo record) {
+        return experimentCenterService.createChat(buildParam(), record);
+    }
 }
